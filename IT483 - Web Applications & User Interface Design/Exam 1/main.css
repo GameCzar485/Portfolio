@@ -1,0 +1,57 @@
+html {
+    background-image: url("BGSkeleton.jpg");
+}
+body {
+    width : 800px;
+    margin : auto;
+    padding : 0;
+}
+header {
+    text-align: center;
+    height: 100px;
+    background-image: linear-gradient(white, orange);
+}
+.sidenavA {
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    background-image: linear-gradient(orange, orange);
+    height:35%;
+}
+.sidenavA a:visited {
+    color: blue
+}
+.sidenavA a:hover {
+    color: green
+}
+.sidenavB {
+    text-align: center;
+    margin-left: 600px;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    background-image: linear-gradient(orange, orange);
+    height:35%;
+}
+.sidenavB a:visited {
+    color: blue
+}
+.sidenavB a:hover {
+    color: green
+}
+main {
+    background-color: white;
+    margin-left: 200px;
+    margin-right: 200px;
+    background-image: linear-gradient(white, black);
+    color: white;
+}
+main img {
+    width : 400px;
+}
+footer {
+    background-image: linear-gradient(orange, white);
+    text-align: center;
+    margin-top: -25px;
+    height: 50px;
+}

@@ -1,0 +1,33 @@
+html {
+    background-image: url("BGSkeleton.jpg");
+}
+body {
+    width : 800px;
+    margin : auto;
+    padding : 0;
+}
+header {
+    text-align: center;
+    height: 100px;
+    background-image: linear-gradient(white, orange);
+}
+.aside {
+    width: 200px;
+    position: absolute;
+    z-index: 1;
+    background-image: linear-gradient(orange, orange);
+}
+main {
+    margin-top: -16px;
+    padding-left: 200px;
+    background-color: white;
+}
+main img {
+    width: 600px;
+}
+footer {
+    background-image: linear-gradient(orange, white);
+    text-align: center;
+    margin-top: -16px;
+    height: 50px;
+}

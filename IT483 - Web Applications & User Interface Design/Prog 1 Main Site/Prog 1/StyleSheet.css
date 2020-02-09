@@ -1,0 +1,30 @@
+*{
+  box-sizing: border-box;
+  font-family: sans-serif;
+ }
+body {
+      margin: 0
+     }
+nav {
+    list-style-type: none;
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 200px;
+     height: 100%;
+     background: purple;
+    }
+main {
+      margin-left: 200px;
+      padding: 10px
+     }
+button {
+        margin-left: 200px;
+        padding: 10px;
+        position: absolute;
+        bottom: auto;
+       }
+footer {
+        margin-left: 200px;
+        padding: 10px
+       }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">	
+    <title>Convert from Fahrenheit to Centigrade</title>
+    <script>
+        var mediator = 0.0;
+        while (mediator != 999){
+            fDegrees = prompt("Enter Fahrenheit temperature", "");
+            mediator = parseFloat(fDegrees);
+            if (212 > mediator) {
+                if ((-100) < mediator) {
+                    var moderator = ((mediator - 32) * (5/9));
+                    var cDegrees = moderator.toString();
+                    var display = ("Fahrenheit temperature is " + fDegrees + "\nCelsius temperature is " + cDegrees)
+                    alert(display); 
+                }
+                else {
+                alert("You entered " + fDegrees + ".\nEntry must range from -100 to +212.")
+                }
+            }
+            else {
+                alert("You entered " + fDegrees + ".\nEntry must range from -100 to +212.")
+            }
+        }
+    
+    </script>
+</head>
+<body>
+    <main>
+        <h1>Thanks for using the temperature converter</h1>
+    </main>
+</body>
+</html>

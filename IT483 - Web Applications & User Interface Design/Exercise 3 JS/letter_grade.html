@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Show letter grade</title>
+	<script>
+        var grade;
+        var grode;
+        while(grade != 999) {
+            grade = prompt("Enter number grade from 0 through 100\nOr enter 999 to end entries", "999");
+            grode = parseInt(grade);
+            if(grode >= 0) {
+                if(grode <= 100) {
+                    if(grode >= 88) {
+                        alert("Number grade = " + grade + "\nLeter grade = A");
+                    }
+                    else if(grode >= 80) {
+                        alert("Number grade = " + grade + "\nLeter grade = B");
+                    }
+                    else if(grode >= 68) {
+                        alert("Number grade = " + grade + "\nLeter grade = C");
+                    }
+                    else if(grode >= 60) {
+                        alert("Number grade = " + grade + "\nLeter grade = D");
+                    }
+                    else if(60 > grode) {
+                        alert("Number grade = " + grade + "\nLeter grade = F");
+                    }
+                }
+            }
+        }
+        
+	</script>
+</head>
+<body>
+	<main>
+    	<h1>This page is displayed after the JavaScript is executed</h1>
+	</main>
+</body>
+</html>

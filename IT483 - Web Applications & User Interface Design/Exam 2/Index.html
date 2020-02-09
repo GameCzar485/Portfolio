@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+       <meta charset="utf-8">
+        <title>Cafe Menu Page</title>
+        <link rel="stylesheet" href="cafe.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="cafe.js"></script>
+    </head>
+    
+    <body>
+        <header>
+            <img src="images/logo.png">
+        </header>
+        <menu>
+            <h2>Menu</h2>
+            <p id="text">Click an item to add to your order.</p>
+        </menu>
+        <ul>
+            <li>
+                <img src="images/espresso.jpg" id="espresso" onmouseover="this.src = 'images/espresso_info.jpg'" onmouseout="this.src = 'images/espresso.jpg'">
+                <img src="images/latte.jpg" id="latte" onmouseover="this.src = 'images/latte_info.jpg'" onmouseout="this.src = 'images/latte.jpg'">
+                <img src="images/cappuccino.jpg" id="cappuccino" onmouseover="this.src = 'images/cappuccino_info.jpg'" onmouseout="this.src = 'images/cappuccino.jpg'">
+            </li>
+            <li>
+                <img src="images/coffee.jpg" id="coffee" onmouseover="this.src = 'images/coffee_info.jpg'" onmouseout="this.src = 'images/coffee.jpg'">
+                <img src="images/biscotti.jpg" id="biscotti" onmouseover="this.src = 'images/biscotti_info.jpg'" onmouseout="this.src = 'images/biscotti.jpg'">
+                <img src="images/scone.jpg" id="scone" onmouseover="this.src = 'images/scone_info.jpg'" onmouseout="this.src = 'images/scone.jpg'">
+            </li>
+        </ul>
+        <menu>
+            <h2>Your Order</h2>
+            <textarea id="placetext"></textarea>
+            <h2 id="total">Total: $0.00</h2>
+        </menu>
+        <form action="checkout.html" method="get" name="order_form" id="order_form">
+            <input type="submit" id="submit" value="Place Order">
+            <input type="button" id="clear" value="Clear Order">
+        </form>
+    </body>
+</html>
