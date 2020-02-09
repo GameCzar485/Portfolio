@@ -1,0 +1,14 @@
+IT340-3 9/17/18
+
+Data Models -- blueprint of a database (shows a concept of the views, tables, and data in a database)
+
+ERD -- Entity Relationship Diagram (data storage) [data in rest]
+
+DFD -- Data Flow Diagram (How the data flows within the software) [data in motion]
+
+Business rules -- description of policies and procedures
+
+RACI Framework -- Responsible Accountable Consulted Informed Framework
+
+Document Business rules -- Help standardize data and help understand the uses of the data
+

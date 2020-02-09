@@ -1,0 +1,35 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addNewDepartment`(
+	IN `b_id` INT,
+	IN `d_id` INT,
+	IN `d_name` VARCHAR(30),
+	IN `e_id` INT
+
+
+
+
+
+
+
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
+BEGIN
+	declare branchCheck CHAR(10);
+	declare departmentCheck CHAR(10);
+	declare newNum INT;
+	SET branchCheck = CheckIfBranchExists(b_id);
+	SET departmentCheck = CheckIfDepartmentExists(d_id, d_name, b_id);
+	SET newNum = GenNewDeptNum();
+	
+	IF branchCheck = "True" THEN
+		IF departmentCheck = "False" THEN
+			INSERT INTO department (DEPT_ID, DEPT_Name, BRANCH_ID) VALUES (newNum, d_name, b_id);
+			UPDATE employee
+				SET DEPT_ID = newNum WHERE EMPE_ID = e_id;
+		END IF;
+	END IF;
+END $$

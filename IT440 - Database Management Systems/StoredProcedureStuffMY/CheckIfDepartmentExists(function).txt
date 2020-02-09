@@ -1,0 +1,29 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` FUNCTION `CheckIfDepartmentExists`(
+	`d_id` INT,
+	`d_name` VARCHAR(30),
+	`b_id` INT
+
+
+)
+RETURNS char(10) CHARSET latin1
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
+BEGIN
+	declare deptCount INT;
+	declare dchecker CHAR(10) DEFAULT "False";
+	
+	SELECT COUNT(*) INTO deptCount
+	FROM department
+	WHERE DEPT_ID = d_id
+	AND DEPT_Name = d_name
+	AND BRANCH_ID = b_id;
+	
+	IF deptCount = 1 THEN
+		SET dchecker = "True";
+	END IF;
+	RETURN dchecker;	
+END $$

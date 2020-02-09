@@ -1,0 +1,469 @@
+import random
+import string
+       
+def q5_0():
+    """0) Addressing Mode problems."""
+    c=random.randint(10,2047)*2
+    o=random.randint(-5,5)*2
+    a=random.randint(10000,20000)*2
+    r1=random.randint(100,65000)
+    r2=random.randint(100,9000)*2
+    pc=random.randint(10000,20000)*2
+    itype=random.randint(0,8)
+    m = {}
+    m[random.randint(0,32700)*2] = random.randint(0,65500)
+    m[random.randint(0,32700)*2] = random.randint(0,65500)
+    m[random.randint(0,32700)*2] = random.randint(0,65500)
+    m[random.randint(0,32700)*2] = random.randint(0,65500)
+    m[c] = random.randint(20,9999)
+    m[r2+o] = random.randint(20,9999)
+    m[r2-o] = random.randint(20,9999)
+    m[r2+o+2] = random.randint(20,9999)
+    m[r2-o+2] = random.randint(20,9999)
+    m[r2+o-2] = random.randint(20,9999)
+    m[r2-o-2] = random.randint(20,9999)
+    m[r2+2] = random.randint(20,9999)
+    m[r2-2] = random.randint(20,9999)
+    m[r2] = random.randint(20,9999)*2
+    m[r2-4] = random.randint(20,9999)
+    m[pc] = random.randint(20,9999)
+    m[pc+2] = random.randint(20,9999)
+    m[pc+4] = random.randint(20,9999)
+    m[pc+6] = random.randint(20,9999)
+    m[pc-2] = random.randint(20,9999)
+    m[pc-4] = random.randint(20,9999)
+    x = random.randint(0,32700)*2
+    m[x] = random.randint(0,65500)
+    m[a] = x
+    m[a+2] = random.randint(20,9999)*2
+    m[a+4] = random.randint(20,9999)*2
+    m[a+6] = random.randint(20,9999)*2
+    m[a-2] = random.randint(20,9999)*2
+    m[a-4] = random.randint(20,9999)*2
+    mem=m.items()
+    mem.sort()
+    
+    nr1 = r1
+    nr2 = r2
+    npc = pc
+    help = ""
+    
+    if itype==0: 
+        inst = "li   $r1, " + str(c)
+        nr1 = c
+        help = str(c) + " is " + "0x%4x"%(c)
+        a1 = "The Load Immediate instruction has the data within the instruction.\n\nOnly R1 is changed."
+    if itype==1: 
+        inst = "lw   $r1, "+str(o)+"($r2)"
+        nr1 = m[r2+o]
+        a1 = "The Indexed/Based addressing mode accesses memory at the location that is the sum\nof the register contents and the offset.\nOnly R1 is changed."
+    if itype==2:
+        inst = "lw   $r1, -($r2)"
+        nr2 = r2-2
+        nr1 = m[nr2]
+        a1 = "The Indirect Autodecrement mode decrements the register by the size of the data, then\nuses the register as a memory address to access the data.\nR1 and R2 are changed."
+    if itype==3:
+        inst = "lw   $r1, ($r2)+"
+        nr1 = m[r2]
+        nr2 = r2+2
+        a1 = "The Indirect Autoincrement mode uses the register to indicate the memory location where\nthe data can be found, then increments the register by the size of the data.\nR1 and R2 are changed."        
+    if itype==4:
+        inst = "lw   $r1, (pc)+"
+        nr1 = m[pc]
+        npc = pc+2
+        a1 = "This addressing mode accesses the data where the PC is pointing, then increments it\n(by the instruction size) to prepare for the next instruction fetch.\nR1 and PC are changed."
+    if itype==5:
+        inst = "j    "+str(a)
+        npc = a
+        help = str(a) + " is " + "0x%4x"%(a)
+        a1 = "The Jump instruction places the value given (the address of a label) into the PC ready to\nuse for the next instruction fetch.\nOnly PC is changed."
+    if itype==6:
+        inst = "jr   $r2"
+        npc = r2
+        a1 = "The Jump Register instruction places the contents of the designated register into the PC\nready to use for the next instruction fetch.\nOnly PC is changed."    
+    if itype==7:
+        inst = "lw   $r2, @(" + str(a) + ")"
+        nr2 = m[m[a]]
+        help = str(a) + " is " + "0x%4x"%(a)
+        a1 = "Indirect Memory addressing requires two accesses to memory.\nThe first access is to get a pointer, the second for data.\nOnly R2 is changed."
+    if itype==8:
+        inst = "lw   $r2, (" + str(a) + ")"
+        nr2 = m[a]
+        help = str(a) + " is " + "0x%4x"%(a)
+        a1 = "Direct Memory addressing requires one access to memory.\nThe instruction contains the address of where the data is found.\nOnly R2 is changed."
+      
+    regDisplay = "R0=  %6d  %4x\nR1=  %6d  %4x\nR2=  %6d  %4x\nPC=  %6d  %4x"%(0,0,r1,r1,r2,r2,pc,pc)
+    nregDisplay = "R0=  %6d  %4x\nR1=  %6d  %4x\nR2=  %6d  %4x\nPC=  %6d  %4x"%(0,0,nr1,nr1,nr2,nr2,npc,npc)
+    memDisp1 = ""
+    for i in range(14):
+        memDisp1 += "%4x    %6d  %4x\n"%(mem[i][0],mem[i][1],mem[i][1])
+    memDisp2 = ""
+    for i in range(14,len(mem)):
+        memDisp2 += "%4x    %6d  %4x\n"%(mem[i][0],mem[i][1],mem[i][1])
+        
+    q = [('text',(30,50),'black',"Assume you have a 16-bit computer (2 bytes per word) with some registers and memory shown\n(in decimal and hex).  " +
+                                  "Find the new register contents after executing:   " + inst +
+                                  "\nFind answers in either decimal or hex, whichever you find easier."),
+         ('text',(30,120),'blue',"Registers\nR#  Decimal   Hex\n-----------------\n"+regDisplay),
+         ('text',(350,120),'navy',"Memory Display"),
+         ('text',(350,140),'navy',"Addr   Decimal   Hex\n--------------------\n"+memDisp1),
+         ('text',(650,140),'navy',"Addr   Decimal   Hex\n--------------------\n"+memDisp2),
+         ('text',(30,300),'blue',help)]
+                                  
+    a = [('text',(30,530),'red',a1+"\n"),
+         ('text',(30,600),'blue',"Original Registers\nR#  Decimal   Hex\n-----------------\n"+regDisplay),
+         ('text',(300,600),'red',"Updated  Registers\nR#  Decimal   Hex\n-----------------\n"+nregDisplay)]
+
+    return q,a        
+
+ops = {}
+ops['+'] = 'Add '
+ops['-'] = 'Subt'
+ops['*'] = 'Mul '
+ops['/'] = 'Div '
+
+def q5_1():
+    """1) Level 1 Expression compiling (extremely easy)."""   
+    op = "+-*/"[random.randint(0,3)]
+    expr = "A = B " + op + " C" 
+    
+    a1 = "Push B\nPush C\n" + ops[op] + "\nPop  A"
+    a2 = "Load  B\n" + ops[op] + "  C\nStore A"
+    a3 = "Load  R1, B\n" + ops[op] + "  R1, C\nStore R1, A"
+    a4 = ops[op] + "  A, B, C"
+    a5 = "Load  R1, B\nLoad  R2, C\n" + ops[op] + "  R1, R1, R2\nStore R1, A"
+    
+    q = [('text',(30,50),'black',"Show how to implement the expression  " + expr + "  for the following architectures:\n\n" + 
+                                  "1. 0-Address Machine (stack machine)\n2. 1-Address Machine (accumulator-based)\n3. 2-Address Machine\n" +
+                                  "4. 3-Address Machine (memory-to-memory)\n5. 3-Address Machine (load and store architecture)")]
+         
+                                  
+    a = [('text',(30,510),'red',"Stack Mach\n----------\n" + a1),
+         ('text',(190,510),'red',"1-Addr Mach\n-----------\n" + a2),
+         ('text',(360,510),'red',"2-Addr Mach\n-----------\n" + a3),
+         ('text',(530,510),'red',"Memory to Memory\n----------------\n" + a4),
+         ('text',(750,510),'red',"Load and Store\n--------------\n" + a5)]
+
+    return q,a        
+ 
+
+def q5_2():
+    """2) Level 2 Expression compiling (easy)."""
+    ord = {}    
+    ord['++'] = 1
+    ord['+-'] = 1
+    ord['-+'] = 1
+    ord['--'] = 1
+    ord['**'] = 1
+    ord['*/'] = 1
+    ord['/*'] = 1
+    ord['//'] = 1
+    ord['*+'] = 1
+    ord['*-'] = 1
+    ord['/+'] = 1
+    ord['/-'] = 1
+    ord['+*'] = 2
+    ord['+/'] = 2
+    ord['-*'] = 3
+    ord['-/'] = 3
+
+    while True:
+        op1 = "+-*/"[random.randint(0,3)]
+        op2 = "+-*/"[random.randint(0,3)]
+        expr = "A = B " + op1 + " C " + op2 + " D"
+        op12 = op1 + op2 
+        if ord[op12] > 1 or random.randint(0,5) == 0: break
+    
+    if ord[op12]==1:
+        a1 = "Push B\nPush C\n" + ops[op1] + "\nPush D\n" + ops[op2] + "\nPop  A"
+        a2 = "Load  B\n" + ops[op1] + "  C\n" + ops[op2] + "  D\nStore A"
+        a3 = "Load  R1, B\n" + ops[op1] + "  R1, C\n" + ops[op2] + "  R1, D\nStore R1, A"
+        a4 = ops[op1] + "  R1, B, C\n" + ops[op2] + "  A, R1, D"
+        a5 = "Load  R1, B\nLoad  R2, C\nLoad  R3, D\n" + ops[op1] + "  R1, R1, R2\n" + ops[op2] + "  R1, R1, R3\nStore R1, A"
+
+    if ord[op12]==2:
+        a1 = "Push B\nPush C\nPush D\n" + ops[op2] + "\n" + ops[op1] + "\nPop  A"
+        a2 = "Load  C\n" + ops[op2] + "  D\n" + ops[op1] + "  B\nStore A"
+        a3 = "Load  R1, C\n" + ops[op2] + "  R1, D\n" + ops[op1] + "  R1, B\nStore R1, A"
+        a4 = ops[op2] + "  R1, C, D\n" + ops[op1] + "  A, B, R1"
+        a5 = "Load  R2, C\nLoad  R3, D\nLoad  R1, B\n" + ops[op2] + "  R2, R2, R3\n" + ops[op1] + "  R1, R1, R2\nStore R1, A"
+
+    if ord[op12]==3:
+        a1 = "Push B\nPush C\nPush D\n" + ops[op2] + "\n" + ops[op1] + "\nPop  A"
+        a2 = "Load  C\n" + ops[op2] + "  D\nStore A\nLoad  B\n" + ops[op1] + "  A\nStore A"
+        a3 = "Load  R1, C\n" + ops[op2] + "  R1, D\nLoad  R2, B\n" + ops[op1] + "  R2, R1\nStore R2, A"
+        a4 = ops[op2] + "  R1, C, D\n" + ops[op1] + "  A, B, R1"
+        a5 = "Load  R2, C\nLoad  R3, D\nLoad  R1, B\n" + ops[op2] + "  R2, R2, R3\n" + ops[op1] + "  R1, R1, R2\nStore R1, A"
+
+        
+    q = [('text',(30,50),'black',"Show how to implement the expression  " + expr + "  for the following architectures:\n\n" + 
+                                  "1. 0-Address Machine (stack machine)\n2. 1-Address Machine (accumulator-based)\n3. 2-Address Machine\n" +
+                                  "4. 3-Address Machine (memory-to-memory)\n5. 3-Address Machine (load and store architecture)")]
+         
+                                  
+    a = [('text',(30,510),'red',"Stack Mach\n----------\n" + a1),
+         ('text',(190,510),'red',"1-Addr Mach\n-----------\n" + a2),
+         ('text',(360,510),'red',"2-Addr Mach\n-----------\n" + a3),
+         ('text',(530,510),'red',"Memory to Memory\n----------------\n" + a4),
+         ('text',(750,510),'red',"Load and Store\n--------------\n" + a5)]
+
+    return q,a        
+ 
+def q5_3():
+    """3) Level 3 Expression compiling."""
+    op1 = "+-*/"[random.randint(0,3)]
+    op2 = "+-*/"[random.randint(0,3)]
+    op3 = "+-*/"[random.randint(0,3)]
+    expr = "A = B " + op1 + " C " + op2 + " D " + op3 + " E"
+    op123 = op1 + op2 + op3
+    
+    ord = {}    
+    ord['+++'] = '123'
+    ord['++-'] = '123'
+    ord['++*'] = '312'
+    ord['++/'] = '312'
+    ord['+-+'] = '123'
+    ord['+--'] = '123'
+    ord['+-*'] = '3s12'
+    ord['+-/'] = '3s12'
+    ord['+*+'] = '213'
+    ord['+*-'] = '231'
+    ord['+**'] = '231'
+    ord['+*/'] = '231'
+    ord['+/+'] = '213'
+    ord['+/-'] = '231'
+    ord['+/*'] = '231'
+    ord['+//'] = '231'
+    ord['-++'] = '123'
+    ord['-+-'] = '123'
+    ord['-+*'] = '3s12'
+    ord['-+/'] = '3s12'
+    ord['--+'] = '123'
+    ord['---'] = '123'
+    ord['--*'] = '3s12'
+    ord['--/'] = '3s12'
+    ord['-*+'] = '2s13'
+    ord['-*-'] = '2s13'
+    ord['-**'] = '23s1'
+    ord['-*/'] = '23s1'
+    ord['-/+'] = '2s13'
+    ord['-/-'] = '2s13'
+    ord['-/*'] = '23s1'
+    ord['-//'] = '23s1'
+    ord['*++'] = '123'
+    ord['*+-'] = '123'
+    ord['*+*'] = '1s32'
+    ord['*+/'] = '1s32'
+    ord['*-+'] = '123'
+    ord['*--'] = '123'
+    ord['*-*'] = '3s12'
+    ord['*-/'] = '3s12'
+    ord['**+'] = '123'
+    ord['**-'] = '123'
+    ord['***'] = '123'
+    ord['**/'] = '123'
+    ord['*/+'] = '123'
+    ord['*/-'] = '123'
+    ord['*/*'] = '123'
+    ord['*//'] = '123'
+    ord['/++'] = '123'
+    ord['/+-'] = '123'
+    ord['/+*'] = '1s32'
+    ord['/+/'] = '1s32'
+    ord['/-+'] = '123'
+    ord['/--'] = '123'
+    ord['/-*'] = '3s12'
+    ord['/-/'] = '3s12'
+    ord['/*+'] = '123'
+    ord['/*-'] = '123'
+    ord['/**'] = '123'
+    ord['/*/'] = '123'
+    ord['//+'] = '123'
+    ord['//-'] = '123'
+    ord['//*'] = '123'
+    ord['///'] = '123'
+
+    while True: 
+        op1 = "+-*/"[random.randint(0,3)]
+        op2 = "+-*/"[random.randint(0,3)]
+        op3 = "+-*/"[random.randint(0,3)]
+        expr = "A = B " + op1 + " C " + op2 + " D " + op3 + " E"
+        op123 = op1 + op2 + op3
+        if ord[op123] != '123' or random.randint(0,5) == 0: break
+    
+    if ord[op123]=='123':
+        a1 = "Push B\nPush C\n" + ops[op1] + "\nPush D\n" + ops[op2] + "\nPush E\n" + ops[op3] + "\nPop  A"
+        a2 = "Load  B\n" + ops[op1] + "  C\n" + ops[op2] + "  D\n" + ops[op3] + "  E\nStore A"
+        a3 = "Load  R1, B\n" + ops[op1] + "  R1, C\n" + ops[op2] + "  R1, D\n" + ops[op3] + "  R1, E\nStore R1, A"
+        a4 = ops[op1] + "  R1, B, C\n" + ops[op2] + "  R1, R1, D\n" + ops[op3] + "  A, R1, E"
+        a5 = "Load  R1, B\nLoad  R2, C\nLoad  R3, D\nLoad  R4, E\n" + ops[op1] + "  R1, R1, R2\n" + ops[op2] + "  R1, R1, R3\n" + ops[op3] + "  R1, R1, R4\nStore R1, A"
+
+    if ord[op123]=='213':
+        a1 = "Push B\nPush C\nPush D\n" + ops[op2] + "\n" + ops[op1] + "\nPush E\n" + ops[op3] + "\nPop  A"
+        a2 = "Load  C\n" + ops[op2] + "  D\n" + ops[op1] + "  B\n" + ops[op3] + "  E\nStore A"
+        a3 = "Load  R1, C\n" + ops[op2] + "  R1, D\n" + ops[op1] + "  R1, B\n" + ops[op3] + "  R1, E\nStore R1, A"
+        a4 = ops[op2] + "  R1, C, D\n" + ops[op1] + "  R1, B, R1\n" + ops[op3] + "  A, R1, E"
+        a5 = "Load  R1, B\nLoad  R2, C\nLoad  R3, D\nLoad  R4, E\n" + ops[op2] + "  R2, R2, R3\n" + ops[op1] + "  R1, R1, R2\n" + ops[op3] + "  R1, R1, R4\nStore R1, A"
+    
+    if ord[op123]=='231':
+        a1 = "Push B\nPush C\nPush D\n" + ops[op2] + "\nPush E\n" + ops[op3] + "\n" + ops[op1] +  "\nPop  A"
+        a2 = "Load  C\n" + ops[op2] + "  D\n" + ops[op3] + "  E\n" + ops[op1] + "  B\nStore A"
+        a3 = "Load  R1, C\n" + ops[op2] + "  R1, D\n" + ops[op3] + "  R1, E\n" + ops[op1] + "  R1, B\nStore R1, A"
+        a4 = ops[op2] + "  R1, C, D\n" + ops[op3] + "  R1, R1, E\n" + ops[op1] + "  A, B, R1"
+        a5 = "Load  R1, B\nLoad  R2, C\nLoad  R3, D\nLoad  R4, E\n" + ops[op2] + "  R2, R2, R3\n" + ops[op3] + "  R2, R2, R4\n" + ops[op1] + "  R1, R1, R2\nStore R1, A"
+    
+    if ord[op123]=='312':
+        a1 = "Push B\nPush C\nPush D\nPush E\n" + ops[op3] + "\n" + ops[op2] + "\n" + ops[op1] +  "\nPop  A"
+        a2 = "Load  D\n" + ops[op3] + "  E\n" + ops[op1] + "  B\n" + ops[op2] + "  C\nStore A"
+        a3 = "Load  R1, D\n" + ops[op3] + "  R1, E\n" + ops[op1] + "  R1, B\n" + ops[op2] + "  R1, C\nStore R1, A"
+        a4 = ops[op3] + "  R1, D, E\n" + ops[op1] + "  R1, B, R1\n" + ops[op2] + "  A, C, R1"
+        a5 = "Load  R2, C\nLoad  R3, D\nLoad  R4, E\nLoad  R1, B\n" + ops[op3] + "  R3, R3, R4\n" + ops[op1] + "  R1, R1, R3\n" + ops[op2] + "  R1, R2, R1\nStore R1, A"
+    
+    if ord[op123]=='1s32':
+        a1 = "Push B\nPush C\n" + ops[op1] + "\nPush D\nPush E\n" + ops[op3] + "\n" + ops[op2] +  "\nPop  A"
+        a2 = "Load  B\n" + ops[op1] + "  C\nStore A\nLoad  D\n" + ops[op3] + "  E\n" + ops[op2] + "  A\nStore A"
+        a3 = "Load  R1, B\n" + ops[op1] + "  R1, C\nLoad  R2, D\n" + ops[op3] + "  R2, E\n" + ops[op2] + "  R1, R2\nStore R1, A"
+        a4 = ops[op1] + "  R1, B, C\n" + ops[op3] + "  R2, D, E\n" + ops[op2] + "  A, R1, R2"
+        a5 = "Load  R1, B\nLoad  R2, C\nLoad  R3, D\nLoad  R4, E\n" + ops[op1] + "  R1, R1, R2\n" + ops[op3] + "  R3, R3, R4\n" + ops[op2] + "  R1, R1, R3\nStore R1, A"
+
+    if ord[op123]=='2s13':
+        a1 = "Push B\nPush C\nPush D\n" + ops[op2] + "\n" + ops[op1] + "\nPush E\n" + ops[op3] +  "\nPop  A"
+        a2 = "Load  C\n" + ops[op2] + "  D\nStore A\nLoad  B\n" + ops[op1] + "  A\n" + ops[op3] + "  E\nStore A"
+        a3 = "Load  R1, C\n" + ops[op2] + "  R1, D\nLoad  R2, B\n" + ops[op1] + "  R2, R1\n" + ops[op3] + "  R2, E\nStore R2, A"
+        a4 = ops[op2] + "  R1, C, D\n" + ops[op1] + "  R1, B, R1\n" + ops[op3] + "  A, R1, E"
+        a5 = "Load  R1, B\nLoad  R2, C\nLoad  R3, D\nLoad  R4, E\n" + ops[op2] + "  R2, R2, R3\n" + ops[op1] + "  R1, R1, R2\n" + ops[op3] + "  R1, R1, R4\nStore R1, A"
+
+    if ord[op123]=='3s12':
+        a1 = "Push B\nPush C\n" + ops[op1] + "\nPush D\nPush E\n" + ops[op3] + "\n" + ops[op2] + "\nPop  A"
+        a2 = "Load  D\n" + ops[op3] + "  E\nStore A\nLoad  B\n" + ops[op1] + "  C\n" + ops[op2] + "  A\nStore A"
+        a3 = "Load  R1, D\n" + ops[op3] + "  R1, E\nLoad  R2, B\n" + ops[op1] + "  R2, C\n" + ops[op2] + "  R2, R1\nStore R2, A"
+        a4 = ops[op3] + "  R1, D, E\n" + ops[op1] + "  R2, B, C\n" + ops[op2] + "  A, R2, R1"
+        a5 = "Load  R2, C\nLoad  R3, D\nLoad  R4, E\nLoad  R1, B\n" + ops[op3] + "  R3, R3, R4\n" + ops[op1] + "  R1, R1, R2\n" + ops[op2] + "  R1, R1, R3\nStore R1, A"
+
+    if ord[op123]=='23s1':
+        a1 = "Push B\nPush C\nPush D\n" + ops[op2] + "\nPush E\n" + ops[op3] + "\n" + ops[op1] + "\nPop  A"
+        a2 = "Load  C\n" + ops[op2] + "  D\n" + ops[op3] + "  E\nStore A\nLoad  B\n" + ops[op1] + "  A\nStore A"
+        a3 = "Load  R1, C\n" + ops[op2] + "  R1, D\n" + ops[op3] + "  R1, E\nLoad  R2, B\n" + ops[op1] + "  R2, R1\nStore R2, A"
+        a4 = ops[op2] + "  R1, C, D\n" + ops[op3] + "  R1, R1, E\n" + ops[op1] + "  A, B, R1"
+        a5 = "Load  R1, B\nLoad  R2, C\nLoad  R3, D\nLoad  R4, E\n" + ops[op2] + "  R2, R2, R3\n" + ops[op3] + "  R2, R2, R4\n" + ops[op1] + "  R1, R1, R2\nStore R1, A"
+
+
+    q = [('text',(30,50),'black',"Show how to implement the expression  " + expr + "  for the following architectures:\n\n" + 
+                                  "1. 0-Address Machine (stack machine)\n2. 1-Address Machine (accumulator-based)\n3. 2-Address Machine\n" +
+                                  "4. 3-Address Machine (memory-to-memory)\n5. 3-Address Machine (load and store architecture)")]
+                                           
+    a = [('text',(30,510),'red',"Stack Mach\n----------\n" + a1),
+         ('text',(190,510),'red',"1-Addr Mach\n-----------\n" + a2),
+         ('text',(360,510),'red',"2-Addr Mach\n-----------\n" + a3),
+         ('text',(530,510),'red',"Memory to Memory\n----------------\n" + a4),
+         ('text',(750,510),'red',"Load and Store\n--------------\n" + a5)]
+
+    return q,a        
+ 
+def q5_4():
+    """4) Expanding Opcode problems."""
+    while True:
+        wordSize = 16
+        x = random.randint(0,9)
+        if x > 4:
+            wordSize = 20
+        if x > 7:
+            wordSize = 24
+        numRegs = 8
+        regBits = 3
+        if random.randint(0,9) > 6 or wordSize == 24:
+            numRegs = 16
+            regBits = 4
+        
+        offsetSize = random.randint(-2,4) + wordSize/2
+        addrSize = random.randint(-5,-2) + wordSize
+        
+        # Instruction Types
+        num3 = random.randint(3,20)
+        num2 = random.randint(3,20)
+        num1 = random.randint(3,20)
+        num1Ofst = random.randint(3,10)
+        num0Addr = random.randint(0,2)*2
+        num0 = random.randint(8,20)
+        
+        avail = 2**wordSize
+    
+        num3Tot = num3 * 2 ** (3 * regBits)                     # type 3
+        num2Tot = num2 * 2 ** (2 * regBits)                     # type 2
+        num1Tot = num1 * 2 ** regBits                           # type 1
+        num1OfstTot = num1Ofst * 2 ** (regBits + offsetSize)   # type 4
+        num0AddrTot = num0Addr * 2 ** addrSize                  # type 5
+        num0Tot = num0                                          # type 0
+        total = num3Tot + num2Tot + num1Tot + num0Tot + num1OfstTot + num0AddrTot
+        
+        if total < .6*avail: continue
+        if total > 1.4*avail: continue
+        if total < .9*avail:
+            a1 = "Yes, it is possible to encode these instructions."
+            a3 = "The ability to show a possible way to pack these opcodes is still under construction."
+            break
+        if total > 1.1*avail: 
+            a1 = "No, it is not possible to encode these instructions."
+            a3 = ""
+            break
+    
+    
+    #~ if a1[0] == "Y":
+        #~ ops3 = 3 * regBits             
+        #~ ops2 = 2 * regBits
+        #~ ops1 = regBits
+        #~ ops4 = regBits + offsetSize
+        #~ ops5 = addrSize
+        #~ ops0 = 0
+        
+        #~ opsList = [(ops0,0,num0),(ops1,1,num1),(ops2,2,num2),(ops3,3,num3),(ops4,4,num1Ofst),(ops5,5,num0Addr)]
+        #~ opsList.sort()
+        #~ opsList.reverse()
+        #~ typeList = ["Opcode-only","1-Register","2-Register","3-Register","Register+Offset","Opcode+Address"]
+        
+        #~ patsAvail = 2**(wordSize-opsList[0][0])
+        #~ anchor = 0
+        #~ a3 += "Examine the instruction types beginning with those requiring the most non-opcode bits.\n"
+        #~ a3 += "The %s type instruction needs %d bits in the operand part leaving %d opcode bits.\n"%\
+              #~ (typeList[opsList[0][1]],opsList[0][0],wordSize-opsList[0][0])
+        #~ a3 += "At this level we have %d different opcodes that can be handled.  This leaves %d patterns unused.\n"%(PatsAvail,PatsAvail-opsList[0][2])
+        #~ patsAvail -= opsList[0][2]
+        #~ for i in range(1,6):
+            #~ if opsList[anchor][0] == opsList[i][0]:
+                #~ a3 += "The %s type instruction also needs %d bits in the operand part.\n"%(typeList[opsList[i][1]],opsList[i][0])
+                #~ patsAvail -= opsList[i][2]
+                #~ a3 += "This leaves %d patterns unused.\n"%(PatsAvail)
+            #~ else:
+                #~ patsAvail *= 2**( 
+                #~ a3 += "The next size for operands is %d for the %s type instruction.\n"(opsList[i][0],typeList[opsList[i][1]])
+                #~ a3 += "Combining left-over patterns with those available by indenting $d bits gives %d patterns at this next level.
+    
+    a2  = "The total number of bit patterns available with " + str(wordSize) + "-bit instructions is " + str(2**wordSize) + ".\n"    
+    a2 += "%8d patterns are used by instructions with 3 registers (%d*2**(3*%d))\n"%(num3Tot,num3,regBits)    
+    a2 += "%8d patterns are used by instructions with 2 registers (%d*2**(2*%d))\n"%(num2Tot,num2,regBits)
+    a2 += "%8d patterns are used by instructions with 1 register (%d*2**(1*%d))\n"%(num1Tot,num1,regBits)
+    a2 += "%8d patterns are used by instructions with only an opcode (%d*2**(0*%d))\n"%(num0Tot,num0,regBits)
+    a2 += "%8d patterns are used by instr with 1 reg and an offset/imm. (%d*2**(%d+%d))\n"%(num1OfstTot,num1Ofst,regBits,offsetSize)
+    a2 += "%8d patterns are used by instr with an opcode and address (%d*2**%d)\n"%(num0AddrTot,num0Addr,addrSize)
+    a2 += "--------\n%8d total patterns needed.\n"%(total)
+    
+    q = [('text',(30,50),'black',"Assume you are designing the instruction encoding of a computer with the following\ncharacteristics:\n" +
+                                  "The word size is " + str(wordSize) + " bits and there are " + str(numRegs) + " registers.\n" +
+                                  "Offsets or immediate values are always " + str(offsetSize) + " bits.\n" +
+                                  "Addresses that occur in instructions always occupy " + str(addrSize) + " bits.\n\n" +
+                                  "The instruction set contains the following numbers of each instruction type:\n" +
+                                  "%2d"%(num3) + " instructions with 3 register specifiers\n" +
+                                  "%2d"%(num2) + " instructions with 2 register specifiers\n" +
+                                  "%2d"%(num1) + " instructions with 1 register specifier\n" +
+                                  "%2d"%(num0) + " instructions with only an opcode\n" +
+                                  "%2d"%(num1Ofst) + " instructions with 1 register specifier and an offset/immediate value\n" +
+                                  "%2d"%(num0Addr) + " instructions with only an opcode and an address\n\n" +
+                                  "Is it possible to design an expanding opcode implementation of this instruction set?")]
+                                  
+    a = [('text',(30,530),'red',a1 + "\n\n" + a2 + "\n\n" + a3)]
+
+    return q,a   
+    
+# list of question functions    
+ques = [q5_0,q5_1,q5_2,q5_3,q5_4]
+chapter = 5

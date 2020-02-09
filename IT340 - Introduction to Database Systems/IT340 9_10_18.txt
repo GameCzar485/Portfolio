@@ -1,0 +1,42 @@
+IT340-3 9/10/2018
+
+Data werehouses are used to store data not frequently used or analysed.
+
+ETL - process used to put data into a database
+
+OLAP - Online Analytical Processor
+
+BI - Business Intelegence - trying to understand what happened in the past through data
+
+Descriptive Analytics == BI
+
+Predictive Analytics - using data to make prediction for the future
+
+Prescriptive Analytics - a way of recommending ways of manipulating the prediction
+
+Optimization - how to get the most optimal outcome
+
+Views - based on layers of abstraction
+
+Databases made of tables - Unlimited amount
+
+you can store as many Databases as you want in a DBMS (Database Managment System)
+
+Shadow Systems - when data is on a private computer and not on the main server
+
+Physical and Logical Data Independance - Logical data is the scheme of how the data relates, Physical is the actual data.
+
+Data Dictionary - Stores definitions of the data elements and their relationships.
+
+Performance Tuning - Ensures efficient performance of the database in terms of storage and access speed
+
+Power BI - is used for presentation using SQL
+
+Triggers - are a peice of SQL code that runs on different tables that tracks if something gets deleted and does an action in order to limit the damage either by reporting it or stopping it
+
+Insert Anomaly - when attributes cant be inserted into the database without other attributes
+
+Update Anomaly - When one or more instances of duplicated data is updated, but not all
+
+Delete Anomaly - when certain attributes are lost because of the deletion of other attributes
+

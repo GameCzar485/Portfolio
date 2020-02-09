@@ -1,0 +1,214 @@
+import random
+import string
+from math import sqrt
+from sys import version
+
+x=(('0','1','1 byte','1','1'),
+   ('1','2','2 bytes','2','2'),
+   ('2','4','4 bytes','4','4'),
+   ('3','8','8 bytes','8','8'),
+   ('4','16','16 bytes','16','16'),
+   ('5','32','32 bytes','32','32'),
+   ('6','64','64 bytes','64','64'),
+   ('7','128','128 bytes','128','128'),
+   ('8','256','256 bytes','256','256'),
+   ('9','512','512 bytes','512','512'),
+   ('10','1,024','1 kilobyte','1 thousand','1K'),
+   ('11','2,048','2 kilobytes','2 thousand','2K'),
+   ('12','4,096','4 kilobytes','4 thousand','4K'),
+   ('13','8,192','8 kilobytes','8 thousand','8K'),
+   ('14','16,384','16 kilobytes','16 thousand','16K'),
+   ('15','32,768','32 kilobytes','32 thousand','32K'),
+   ('16','65,536','64 kilobytes','64 thousand','64K'),
+   ('17',str(2**17),'128 kilobytes','128 thousand','128K'),
+   ('18',str(2**18),'256 kilobytes','256 thousand','256K'),
+   ('19',str(2**19),'512 kilobytes','512 thousand','512K'),
+   ('20',str(2**20),'1 megabyte','1 million','1M'),
+   ('21',str(2**21),'2 megabytes','2 million','2M'),
+   ('22',str(2**22),'4 megabytes','4 million','4M'),
+   ('23',str(2**23),'8 megabytes','8 million','8M'),
+   ('24',str(2**24),'16 megabytes','16 million','16M'),
+   ('25',str(2**25),'32 megabytes','32 million','32M'),
+   ('26',str(2**26),'64 megabytes','64 million','64M'),
+   ('27',str(2**27),'128 megabytes','128 million','128M'),
+   ('28',str(2**28),'256 megabytes','256 million','256M'),
+   ('29',str(2**29),'512 megabytes','512 million','512M'),
+   ('30',str(2**30),'1 gigabyte','1 billion','1G'),
+   ('31',str(2**31),'2 gigabytes','2 billion','2G'),
+   ('32',str(2**32),'4 gigabytes','4 billion','4G'),
+   ('33',str(2**33),'8 gigabytes','8 billion','8G'),
+   ('34',str(2**34),'16 gigabytes','16 billion','16G'),
+   ('35',str(2**35),'32 gigabytes','32 billion','32G'),
+   ('36',str(2**36),'64 gigabytes','64 billion','64G'),
+   ('37',str(2**37),'128 gigabytes','128 billion','128G'),
+   ('38',str(2**38),'256 gigabytes','256 billion','256G'),
+   ('39',str(2**39),'512 gigabytes','512 billion','512G'),
+   ('40',str(2**40),'1 terabyte','1 trillion'),
+   ('41',str(2**41),'2 terabytes','2 trillion'),
+   ('42',str(2**42),'4 terabytes','4 trillion'),
+   ('43',str(2**43),'8 terabytes','8 trillion'),
+   ('44',str(2**44),'16 terabytes','16 trillion'),
+   ('45',str(2**45),'32 terabytes','32 trillion'))
+       
+def q6_0():
+    """0) Direct-Mapped Cache Calculations."""
+    
+    logMemSize = random.randint(20,31)
+    logBytesPerBlock = random.randint(3,7)
+    logNumBlocks = random.randint(8,min(18,(logMemSize-logBytesPerBlock-4)))
+    memLoc  = random.randint(10000,(2**logMemSize-10000))
+    memLocH = "0x%08x"%(memLoc)
+ 
+    q = [('text',(30,60),'navy',"Suppose that a computer with a 32-bit address space has "+x[logMemSize][2]+" of main memory.\n"+
+                                  "The direct mapped cache in this system has "+x[logNumBlocks][4]+" blocks of "+x[logBytesPerBlock][1]+" bytes each.\n" +
+                                  "Each cache line has a 'valid' bit as well as a 'dirty' bit.\n\n"+
+                                  "1. How many blocks are in main memory?\n\n" +
+                                  "2. What is the size of this cache?\n\n" +
+                                  "3. How many memory blocks map to each cache block?\n\n" +
+                                  "4. What is the format of the memory address as seen by this cache?\n\n" +
+                                  "5. What is the total number of bits required to build this cache?\n\n" +
+                                  "6. To which block does memory address "+memLocH+" map?\n")]
+    a1 = "1. This requires dividing the memory size in bytes by the number of bytes per block\n"+\
+         "   (memory_size / bytes_per_block) = "+x[(logMemSize-logBytesPerBlock)][3]+"\n"
+    a2 = "2. The cache size is the number of cache blocks times the number of bytes per block\n"+\
+         "   (number_of_blocks * bytes_per_block) = "+x[(logNumBlocks+logBytesPerBlock)][2]+"\n"
+    a3 = "3. For a direct mapped cache, you can consider the memory to be wrapped around and around\n"+\
+         "   the cache.  This answer is just the ratio of the size of memory to the size of the cache.\n"+\
+         "   (memory_size / cache_size) = "+x[(logMemSize-logNumBlocks-logBytesPerBlock)][1]+"\n"
+    a4 = "4. Working right to left in the address format... the 'byte' field contains the number of\n"+\
+         "   bits needed to specify which byte within the block is being accessed...the 'block' field\n"+\
+         "   contains the number of bits necessary to specify which block...the 'tag' field contains\n"+\
+         "   the remainder of the address bits (subtract the sum of the previous two answers from 32)."         
+    a4c =str(logBytesPerBlock)
+    a4b = str(logNumBlocks)
+    a4a = str(32-logNumBlocks-logBytesPerBlock)
+    a5 = "5. This calculation includes not only the data storage area of the cache, but the other\n"+\
+         "   fields as well.  Multiply the number of cache lines (blocks) by the total number of bits\n"+\
+         "   per line.  (number_of_blocks * bits_per_line) = "+str(2**logNumBlocks)+" * "+str(2**logBytesPerBlock * 8 + 2 + 32-logNumBlocks-logBytesPerBlock)+" = "+\
+         str(2**logNumBlocks * (2**logBytesPerBlock * 8 + 2 + 32-logNumBlocks-logBytesPerBlock))+" bits.\n" 
+    a6 = "6. Divide this address into the fields described in part 4 above and extract the bits from\n"+\
+         "   the 'block' field.  Expressing this value as a decimal number =  block "+str((memLoc >> logBytesPerBlock) % 2**logNumBlocks)+ ".\n"
+                                  
+    a = [('text',(30,510),'red',"%s\n%s\n%s\n%s\n   tag=%s  block=%s  byte=%s\n\n%s\n%s\n"%(a1,a2,a3,a4,a4a,a4b,a4c,a5,a6))]
+
+    return q,a        
+ 
+def q6_1():
+    """1) Set-Associative Cache Calculations."""
+    
+    logMemSize = random.randint(20,31)
+    logBytesPerBlock = random.randint(3,7)
+    logNumSets = random.randint(6,min(18,(logMemSize-logBytesPerBlock-5)))
+    logWays = random.randint(1,2)
+    memLoc  = random.randint(10000,(2**logMemSize-10000))
+    memLocH = "0x%08x"%(memLoc)
+ 
+    q = [('text',(30,60),'navy',"Suppose that a computer with a 32-bit address space has "+x[logMemSize][2]+" of main memory.\n"+
+                                  "The "+str(2**logWays)+"-way set-associative cache in this system has "+x[logNumSets][4]+" sets.  Each block is "+x[logBytesPerBlock][1]+" bytes.\n" +
+                                  "Each cache block has a 'valid' bit as well as a 'dirty' bit.\n\n"+
+                                  "1. How many blocks are in main memory?\n\n" +
+                                  "2. What is the size of this cache?\n\n" +
+                                  "3. How many memory blocks map to each cache set?\n\n" +
+                                  "4. What is the format of the memory address as seen by this cache?\n\n" +
+                                  "5. What is the total number of bits required to build this cache?\n\n" +
+                                  "6. To which set does memory address "+memLocH+" map?\n")]
+    a1 = "1. This requires dividing the memory size in bytes by the number of bytes per block\n"+\
+         "   (memory_size / bytes_per_block) = "+x[(logMemSize-logBytesPerBlock)][3]+"\n"
+    a2 = "2. The cache size is the number of cache blocks times the number of bytes per block\n"+\
+         "   (number_of_sets * number_of_ways * bytes_per_block) = "+x[(logNumSets+logWays+logBytesPerBlock)][2]+"\n"
+    a3 = "3. For a set associative cache, you can consider the memory to be wrapped around the sets of\n"+\
+         "   the cache.  This answer is just the size of memory divided by the product of the number of\n"+\
+         "   sets and block size.  (memory_size / (number_of_sets * bytes_per_block)) = "+x[(logMemSize-logNumSets-logBytesPerBlock)][3]+"\n"
+    a4 = "4. Working right to left in the address format... the 'byte' field contains the number of\n"+\
+         "   bits needed to specify which byte within the block is being accessed...the 'set' field\n"+\
+         "   contains the number of bits necessary to specify which set...the 'tag' field contains\n"+\
+         "   the remainder of the address bits (subtract the sum of the previous two answers from 32)."         
+    a4c =str(logBytesPerBlock)
+    a4b = str(logNumSets)
+    a4a = str(32-logNumSets-logBytesPerBlock)
+    a5 = "5. This calculation includes not only the data storage area of the cache, but the other\n"+\
+         "   fields as well.  Multiply the number of cache lines (sets) by the total number of bits\n"+\
+         "   per line.  (number_of_sets * bits_per_line) = "+str(2**logNumSets)+" * "+str((2**logBytesPerBlock * 8 + 2 + 32-logNumSets-logBytesPerBlock)*2**logWays)+" = "+\
+         str(2**logNumSets * (2**logBytesPerBlock * 8 + 2 + 32-logNumSets-logBytesPerBlock)*2**logWays)+" bits.\n" 
+    a6 = "6. Divide this address into the fields described in part 4 above and extract the bits from\n"+\
+         "   the 'set' field.  Expressing this value as a decimal number =  set "+str((memLoc >> logBytesPerBlock) % 2**logNumSets)+ ".\n"
+                                  
+    a = [('text',(30,510),'red',"%s\n%s\n%s\n%s\n   tag=%s  set=%s  byte=%s\n\n%s\n%s\n"%(a1,a2,a3,a4,a4a,a4b,a4c,a5,a6))]
+
+    return q,a  
+ 
+def q6_2():
+    """2) Virtual Memory Calculations."""
+    
+    logMemSize = random.randint(26,31)
+    logVMemSize = random.randint(logMemSize+2,44)
+    logPageSize = random.randint(10,14)
+    if version[2] < '4':
+        memLoc  = random.randint(10000,(2**31-10000))
+    else:
+        memLoc  = random.randint(10000,(2**logVMemSize-10000))
+    memLocH = "0x%08x"%(memLoc)
+ 
+    q = [('text',(30,60),'navy',"A computer with a virtual memory system of "+x[logVMemSize][2]+" has "+x[logMemSize][2]+" of main memory.\n"+
+                                  "The page size is "+x[logPageSize][2]+".\n\n"+
+                                  "1. How many page frames are in main memory?\n\n" +
+                                  "2. If each page table entry is 4 bytes, how large is the page table?\n\n" +
+                                  "3. How many pages are required to hold the page table?\n\n" +
+                                  "4. To which page frame(s) can address "+memLocH+" be mapped?")]
+    a1 = "1. This requires dividing the physical memory size in bytes by the size of a page.\n"+\
+         "   (memory_size / page_size) = "+x[(logMemSize-logPageSize)][3]+"\n"
+    a2 = "2. The page table must have an entry for each page.  The size can be calculated using\n"+\
+         "   (VM_size / page_size * bytes_per_page_table_entry) = "+x[(logVMemSize-logPageSize+2)][2]+"\n"
+    a3 = "3. From the answer above we know the size of the page table.  Dividing this by the page size\n"+\
+         "   gives: "+x[(logVMemSize-logPageSize+2-logPageSize)][1]+" pages.\n"
+    a4 = "4. This is a trick question.  A virtual memory system is fully associative so any page\n"+\
+         "   can be mapped into any page frame.  The best answer is therefore 'ANY'.\n"
+                                  
+    a = [('text',(30,510),'red',"%s\n%s\n%s\n%s"%(a1,a2,a3,a4))]
+
+    return q,a  
+
+def q6_3():
+    """3) Effective Access Time Calculations (1 Level of Cache)."""
+    
+    memAccTime = random.randint(8,20)*5
+    hitRate = random.randint(14,19)*5 # in percent
+    cacheAccTime = random.randint(2,10)
+ 
+    q = [('text',(30,60),'navy',"A computer has main memory with an access time of "+str(memAccTime)+" nanoseconds.\n"+
+                                  "The cache has an access time of "+str(cacheAccTime)+" nanoseconds and a hit rate of "+str(hitRate)+" percent.\n\n"+
+                                  "What is the Effective Access Time?")]
+    a1 = "E.A.T. = hit_rate * cache_access_time + (1 - hit_rate) * memory_access_time\n"
+    a2 = hitRate / 100.0 * cacheAccTime + (100.0 - hitRate) / 100.0 * memAccTime
+    a = [('text',(30,510),'red',"%s\n0.%d * %d  +  0.%02d * %s  = %6.2f nanoseconds."%(a1,hitRate,cacheAccTime,100-hitRate,memAccTime,a2))]
+
+    return q,a  
+
+def q6_4():
+    """4) Effective Access Time Calculations (2 Levels of Cache)."""
+    
+    memAccTime = random.randint(15,25)*5
+    L1HitRate = random.randint(14,19)*5 # in percent
+    L1AccTime = random.randint(1,4)
+    L2HitRate = random.randint(14,19)*5 # in percent
+    L2AccTime = int(sqrt(L1AccTime*memAccTime))
+    L2AccTime = random.randint(L2AccTime-3,L2AccTime+8)
+
+    q = [('text',(30,60),'navy',"A computer has main memory with an access time of "+str(memAccTime)+" nanoseconds.\n"+
+                                  "The L1 cache has an access time of "+str(L1AccTime)+" nanoseconds and a hit rate of "+str(L1HitRate)+" percent.\n"+
+                                  "The L2 cache has an access time of "+str(L2AccTime)+" nanoseconds and a hit rate of "+str(L2HitRate)+" percent.\n"+
+                                  "The L2 hit rate is based on only the cache accesses that miss at L1.\n\n"+
+                                  "What is the Effective Access Time?")]
+    a1 = "E.A.T. = L1_hit_rate * L1_cache_access_time +\n"+\
+         "         (1 - L1_hit_rate) * L2_hit_rate * L2_cache_access_time +\n"+\
+         "         (1 - ((1 - L1_hit_rate) * L2_hit_rate + L1_hit_rate)) * memory_access_time\n"
+    a2 = L1HitRate / 100.0 * L1AccTime
+    a3 = (1 - L1HitRate / 100.0) * L2HitRate / 100.0 * L2AccTime
+    a4 = (1 - ((1 - L1HitRate / 100.0) * L2HitRate / 100.0 + L1HitRate / 100.0)) * memAccTime
+    a = [('text',(30,510),'red',"%s\nE.A.T. = %6.2f nanoseconds +\n         %6.2f nanoseconds +\n         %6.2f nanoseconds.\n       = %6.2f nanoseconds."%(a1,a2,a3,a4,a2+a3+a4))]
+
+    return q,a  
+
+# list of question functions    
+ques = [q6_0,q6_1,q6_2,q6_3,q6_4]
+chapter = 6

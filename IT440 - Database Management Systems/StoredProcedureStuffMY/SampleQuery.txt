@@ -1,0 +1,9 @@
+/*SELECT * FROM branch;*/
+/*SELECT * FROM department;*/
+/*SELECT * FROM employee;*/
+
+CALL addNewDepartment(2, 101, 'Aquisitions', 101);
+
+SELECT * FROM branch;
+SELECT * FROM department;
+SELECT * FROM employee;

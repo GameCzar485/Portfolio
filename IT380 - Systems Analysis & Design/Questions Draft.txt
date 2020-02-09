@@ -1,0 +1,30 @@
+2/6/2019 -- IT380
+
+Question 1
+Home Insurance
+Contents Insurance
+Car Insurance
+Travel Insurance
+Boat Insurance
+Landlord and Renters Insurance
+Business Insurance
+Caravan Insurance
+Liability Insurance
+Pet Insurance
+
+
+Question 2
+A. figure out what the previous spystem did well and what it did poorly
+B. Ask end-users what they would like to have included in the new design
+C. Analyze overall desing and Data flow through the system
+D. Figure out what is feasable for the project to include while still maintaining usability
+
+This task is important for the beginning stage of the developement process, you need blueprints to build a house.
+
+Question 3
+Factors::
+Time
+User Ability
+Investment and Return
+Hosting Ability
+Technological Availability 

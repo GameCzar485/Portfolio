@@ -1,0 +1,53 @@
+1/16/2019 - Speaker Questions
+1. Who will be using this software?
+2. Are there any additional functions the users have requested?
+3. What systems does the software need to be compatable with?
+4. Who is championing the project?
+5. Should there be more focus on on GUI or raw functionality?
+6. How refined should the GUI be? 
+7. Should the GUI be useable to the average joe, or just trained personell?
+8. What security do you want implemented in the software?
+9. What administrative controls would you like implemented?
+10. What color theme should be used in the GUI?
+
+
+1/23/2019 - Presentation
+NOTES ON PRESENTATION:
+
+He's been: developer, analyst, project manager, account manager, director of business technology (Currently)
+Marketer's actively work with the companies they sign on
+Biggest types of insurance: property and casualty
+Federated does company insurance not individual
+Underwriters gather information and determine risk level
+$6-$10 per MVR ordered
+6 cents to "Monitor" which only tells you whether there is a violation or not (No Additional Info)
+MVR is requested whenever a new driver is added
+Monitor after, if violation occurs: request MVR to see what violation is present
+
+MVR's:
+Owner every year
+family member every three years
+driver every year
+frequent drivers every year
+infrequent drivers every three years
+
+END-USERS:
+Underwriter
+Processor
+Customers
+
+
+RULES:
+Underwriters can't view other underwriters books
+
+
+
+ - Federated HQ is in Owatonna
+
+PROJECT: MVR (Motor Vehicle Report) Automated System
+Make it better/more user friendly
+Build a system that will order MVR's
+Monitor drivers
+Keep list of active drivers
+Recieve updates on drivers from vendors 3 times a year 
+Ideally monthly checks for violations

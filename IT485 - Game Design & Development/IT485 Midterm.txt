@@ -1,0 +1,24 @@
+IT485 Midterm Exam - 10/23/2019
+====================================================================================================================================================
+1. The Factory method is basically a way of designing your scenes or levels that allows you to easily change and adjust the amount of GameObjects
+being spawned by type. To describe it more in-depth, it usually consists of multiple different module-styled objects such as enemies, etc. and 
+a spawner that acts as a "factory" which allows you to easily change and modulate exactly how many and of what type of an object(s) are instantiated.
+You typically would use this for spawners and other things that may need to be changed later on that would benefit from easy modularity and the
+ability to instantiate more efficiently.
+
+2. Not gonna lie, don't know this one.
+
+3. The Strategy design pattern can be described most basically as being like presets. In this design pattern you would define multiple different
+set values to act as presets to be called upon later. An example would be a sprint function for a character. Your normal movement speed would be 
+defined as a default amount lets say 3.0 , but on a button press that amount would get changed to the "sprinting speed" of 5.0 as defined in the
+Strategy script; and you could also have even more variants like a "wounded sprinting speed" that would only be implemented if you are pressing the
+sprint button and are also wounded. You typically would use this to modify the behavior of an object, ie. a target having more health and being faster
+while enraged, or the in-game time of day switching to afternoon and the light switching accordingly to show that time has passed.
+
+4. The Prototype design pattern is like having a mold for a GameObject. For this design pattern you create individual prefabs or "Prototypes" which
+can be called upon to be inserted into the scene or level at a moments notice. An example would be if you wanted to make a zombie in order to populate
+a horde, you don't want to have to create EVERY SINGLE INDIVIDUAL zombie from scratch and you also don't want those zombies to bog down the game.
+The easiest way to acheive this would be to only create one or a few zombies, save them as a "Prototype" and instantiate them into the scene or level 
+thus allowing you to bring in as many zombies as you need while only needing to design a few, with the added benefit of the zombies not being individual
+objects and allowing the host CPU less workload with them. You would use this design pattern for objects that you plan to use in the same way
+multiple times throughout the game.

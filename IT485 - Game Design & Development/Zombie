@@ -1,0 +1,16 @@
+using System.Collections;
+using System. Collections.Generic;
+using UnityEngine;
+
+public class Zombie : Monster
+{
+	public void Walk()
+	{
+		//code goes here
+	}
+	
+	public void FireBow()
+	{
+		//code goes here
+	}
+}

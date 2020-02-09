@@ -1,0 +1,960 @@
+import random
+import string
+
+def q2a():
+    """0) Convert a decimal integer to binary."""
+    num = random.randint(9,150)
+    q  = [('text',(30,60),'navy',"Convert "+str(num)+" from decimal to an unsigned 8-bit binary number.")]
+    
+    orig = num
+    aPart = ""
+    while num:
+        aPart += "%8d | %d"%(num/2,num%2) + "\n"
+        num /= 2
+    a = [('text',(30,510),'dark red', "Using the technique of repeated division by 2...\n" +
+                        "The answer appears in the remainders.\n\n"+
+                        "%8d |"%(orig) + "\n"+  aPart +  
+                        "\nThe resulting answer should be read from the bottom upward\n" +
+                        "giving the result: " +
+                        qGenSupport.toBinary(orig,8) + "\n")]
+    
+    return q,a
+ 
+
+def q2b(seed=None):
+    """1) Convert a decimal fraction to binary."""
+    fnum = random.randint(1,31) / 32.0
+    fnum1=fnum
+    aPart = ""
+    astr = "."
+    while fnum:
+        fnum *= 2.0
+        aPart += "%8.5f"%(fnum) + "\n"
+        if fnum >= 1.0:
+            fnum -= 1.0
+            astr += "1"
+        else:
+            astr += "0"
+            
+    q = [('text',(30,60),'navy',"Convert "+str(fnum1)+" from decimal to a fractional binary number.")]
+    
+    a = [('text',(30,510),'dark red',"Using the technique of repeated multiplication by 2...\n" +
+                        "The answer appears in the digits appearing left of the decimal point.\n" +
+                        "Remember that only the portion of the number to the right of the decimal\n" +
+                        "point is multiplied by 2.\n\n" +
+                        "%8.5f"%(fnum1) + "\n--------\n" + aPart +
+                        "\nReading from top to bottom the answer is " + astr + "\n")]
+    
+    return q,a
+    
+def q2c():
+    """2) Convert a decimal mixed number to binary."""
+    fnum = random.randint(1,63) / 64.0
+    num = random.randint(3,250)
+    fnum1 = fnum
+    num1 = num
+    
+    aPart = ""
+    orig = num
+    while num:
+        aPart += "%8d | %d"%(num/2,num%2) + "\n"
+        num /= 2
+    
+    bPart = ""
+    astr = "."
+    while fnum:
+        fnum *= 2.0
+        bPart += "%9.6f"%(fnum) + "\n"
+        if fnum >= 1.0:
+            fnum -= 1.0
+            astr += "1"
+        else:
+            astr += "0"
+    
+    q = [('text',(30,60),'navy',"Convert "+str(num1)+str(fnum1)[1:]+" from decimal to a mixed binary number.")]
+        
+    a = [('text',(30,510),'dark red',"Solve this problem in two parts.\nFirst do the whole number part:\n" +
+                        "Using the technique of repeated division by 2...\n" +
+                        "The answer appears in the remainders.\n\n" +
+                        "%8d |"%(num1) + "\n" + aPart +
+                        "\nThe resulting answer should be read from the bottom upward\n" +
+                        "giving the result: " + qGenSupport.toBinary(orig,0) + "\n" +
+                        "\nNext, do the fractional part:\n" +
+                        "Using the technique of repeated multiplication by 2...\n" +
+                        "The answer appears in the digits appearing left of the decimal point.\n" +
+                        "Remember that only the portion of the number to the right of the decimal\n" +
+                        "point is multiplied by 2.\n\n" +
+                        "%9.6f"%(fnum1) + "\n---------\n" + bPart +
+                        "\nReading from top to bottom the answer is " + astr + "\n" +
+                        "\nCombining these two partial answers we get: " +
+                        qGenSupport.toBinary(orig,0) + astr + "\n")]
+
+    return q,a
+
+def q2d():
+    """3) Convert a binary integer to hex."""
+    bits = random.randint(6,20)
+    num = random.randint(2**(bits-2),2**bits-1)
+    q = [('text',(30,60),'navy',"Convert the following binary integer to hexadecimal:\n\n" +
+                        qGenSupport.toBinary(num,0))]
+    
+    a = [('text',(30,510),'dark red',"To convert to hex, divide the number into bit-groups of 4 bits each\n" +
+                    "starting at the right end of the number: \n\n" + qGenSupport.toBinary(num,0,4) + "\n\n" +
+                    "These groups of 4 (or fewer) bits can then be converted to hex giving:\n\n" +
+                    "%0x"%(num) + "\n")]
+    
+    return q,a
+
+def q2e():
+    """4) Convert a binary integer to octal."""
+    bits = random.randint(6,20)
+    num = random.randint(2**(bits-2),2**bits-1)
+    q = [('text',(30,60),'navy',"Convert the following binary integer to octal:\n\n" +
+                        qGenSupport.toBinary(num,0))]
+    
+    a = [('text',(30,510),'dark red',"To convert to octal, divide the number into bit-groups of 3 bits each\n" +
+                "starting at the right end of the number: \n\n" + qGenSupport.toBinary(num,0,3) + "\n\n" +
+                "These groups of 3 (or fewer) bits can then be converted to octal giving:\n\n" +
+                "%0o"%(num) + "\n")]
+    
+    return q,a
+
+def q2f():
+    """5) Convert a mixed binary number to hex."""   
+    bits = random.randint(6,20)
+    num1 = random.randint(2**(bits-2),2**bits-1)
+    num1str = qGenSupport.toBinary(num1,0)
+    bits = random.randint(6,20)
+    num2 = random.randint(2**(bits-2),2**bits-1)
+    num2str = qGenSupport.toBinary(num2,0)
+    
+    num2a = num2
+    if (len(num2str) % 4):
+        num2a *= (2**(4 - len(num2str) % 4))
+        num2str = num2str + "0"*(4 - len(num2str) % 4)
+    num2astr = ""
+    for i in range(len(num2str)):
+        num2astr += num2str[i]
+        if i%4 == 3:
+            num2astr += " "
+
+    q = [('text',(30,60),'navy',"Convert the following mixed binary number to hexadecimal:\n\n" +
+                num1str + "." + num2str)]
+    
+    a = [('text',(30,510),'dark red',"To convert to hex, divide the number into bit-groups of 4 bits each\n" +
+                "starting at the binary point: \n\n" +
+                qGenSupport.toBinary(num1,0,4) + "." + num2astr + "\n\n" +
+                "These groups of 4 (or fewer) bits can then be converted to hex giving:\n\n" +
+                "%0x"%(num1) + "." + "%0x"%(num2a) + "\n")]
+    
+    return q,a
+
+def q2g():
+    """6) Convert a mixed binary number to octal."""
+    bits = random.randint(6,20)
+    num1 = random.randint(2**(bits-2),2**bits-1)
+    num1str = qGenSupport.toBinary(num1,0)
+    bits = random.randint(6,20)
+    num2 = random.randint(2**(bits-2),2**bits-1)
+    num2str = qGenSupport.toBinary(num2,0)
+    
+    q = [('text',(30,60),'navy',"Convert the following mixed binary number to octal:\n\n" +
+                num1str + "." + num2str)]
+                
+    num2a = num2
+    if (len(num2str) % 3):
+        num2a *= (2**(3 - len(num2str) % 3))
+        num2str = num2str + "0"*(3 - len(num2str) % 3)
+    num2astr = ""
+    for i in range(len(num2str)):
+        num2astr += num2str[i]
+        if i%3 == 2:
+            num2astr += " "
+
+    a = [('text',(30,510),'dark red',"To convert to octal, divide the number into bit-groups of 3 bits each\n" +
+                "starting at the binary point: \n\n" +
+                qGenSupport.toBinary(num1,0,3) + "." + num2astr + "\n\n" +
+                "These groups of 3 (or fewer) bits can then be converted to octal giving:\n\n" +
+                "%0o"%(num1) + "." + "%0o"%(num2a) + "\n")]
+                
+    return q,a
+
+def q2h():
+    """7) Convert a signed decimal integer to 8-bit Signed Magnitude binary."""   
+    num = random.randint(9,125)
+    Num = num
+    if random.randint(0,10) < 7:
+        Num = -num
+        
+    aPart = ""
+    orig = num
+    while num:
+        aPart += "%8d | %d"%(num/2,num%2) + "\n"
+        num /= 2
+     
+    if Num < 0:
+        bPart= "Since the original number was negative, we must set the left-most bit to 1.\n"
+        numstr = "1" + qGenSupport.toBinary(orig,8)[1:]
+    else:
+        bPart = ""
+        numstr = qGenSupport.toBinary(orig,8) 
+        
+    q = [('text',(30,60),'navy',"Convert "+str(Num)+" from decimal to an 8-bit Signed Magnitude binary number.")]
+    
+    a = [('text',(30,510),'dark red',"Begin by finding the binary representation of the magnitude (absolute\n" +
+                "value).  Using the technique of repeated division by 2...\n" +
+                "The answer appears in the remainders.\n\n" +
+                "%8d |"%(orig) + "\n" + aPart +
+                "\nThe resulting answer should be read from the bottom upward\n" +
+                "giving the result: " + qGenSupport.toBinary(orig,8) + "\n\n" + bPart +        
+                "Answer = " + numstr + "\n")]
+    
+    return q,a
+
+def q2i():
+    """8) Convert a signed decimal integer to 16-bit Signed Magnitude binary."""
+    num = random.randint(300,8000)
+    Num = num
+    if random.randint(0,10) < 7:
+        Num = -num
+        
+    aPart = ""
+    orig = num
+    while num:
+        aPart += "%8d | %d"%(num/2,num%2) + "\n"
+        num /= 2    
+        
+    if Num < 0:
+        bPart = "Since the original number was negative, we must set the left-most bit to 1.\n"
+        numstr = "1" + qGenSupport.toBinary(orig,16)[1:]
+    else:
+        bPart = ""
+        numstr = qGenSupport.toBinary(orig,16) 
+        
+    q = [('text',(30,60),'navy',"Convert "+str(Num)+" from decimal to a 16-bit Signed Magnitude binary number.")]
+    
+    a = [('text',(30,510),'dark red',"Begin by finding the binary representation of the magnitude (absolute\n" +
+                "value).  Using the technique of repeated division by 2...\n" +
+                "The answer appears in the remainders.\n\n" +
+                "%8d |"%(orig) + "\n" + aPart +
+                "\nThe resulting answer should be read from the bottom upward\n" +
+                "giving the result: " + qGenSupport.toBinary(orig,16) + "\n\n" + bPart +        
+                "Answer = " + numstr + "\n")]
+    
+    return q,a
+
+def q2j():
+    """9) Convert a signed decimal integer to 8-bit 1's Complement binary."""
+    num = random.randint(9,125)
+    Num = num
+    if random.randint(0,10) < 7:
+        Num = -num
+    
+    aPart = ""
+    orig = num
+    while num:
+        aPart += "%8d | %d"%(num/2,num%2) + "\n"
+        num /= 2
+        
+    if Num < 0:
+        bPart = "Since the original number was negative, we must invert all the bits\n"
+        bPart += "to form the 1's Complement.\n\n"
+        temp = qGenSupport.toBinary(orig,8)
+        numstr = ""
+        for ch in temp:
+            if ch == "0":
+                numstr += "1"
+            else:
+                numstr += "0"
+    else:
+        bPart = ""
+        numstr = qGenSupport.toBinary(orig,8) 
+            
+    q = [('text',(30,60),'navy',"Convert "+str(Num)+" from decimal to an 8-bit 1's Complement binary number.")]
+    
+    a = [('text',(30,510),'navy',"Begin by finding the binary representation of the magnitude (absolute\n" +
+                "value).  Using the technique of repeated division by 2...\n" +
+                "The answer appears in the remainders.\n\n" +
+                "%8d |"%(orig) + "\n" + aPart +
+                "\nThe resulting answer should be read from the bottom upward\n" +
+                "giving the result: " + qGenSupport.toBinary(orig,8) + "\n\n" + bPart +
+                "Answer = " + numstr + "\n")]
+    
+    return q,a
+
+def q2k():
+    """10) Convert a signed decimal integer to 16-bit 1's Complement binary."""   
+    num = random.randint(300,9000)
+    Num = num
+    if random.randint(0,10) < 7:
+        Num = -num
+    
+    aPart = ""    
+    orig = num
+    while num:
+        aPart += "%8d | %d"%(num/2,num%2) + "\n"
+        num /= 2
+
+    if Num < 0:
+        bPart = "Since the original number was negative, we must invert all the bits\n"
+        bPart += "to form the 1's Complement.\n\n"
+        temp = qGenSupport.toBinary(orig,16)
+        numstr = ""
+        for ch in temp:
+            if ch == "0":
+                numstr += "1"
+            else:
+                numstr += "0"
+    else:
+        bPart = ""
+        numstr = qGenSupport.toBinary(orig,16) 
+        
+    q = [('text',(30,60),'navy',"Convert "+str(Num)+" from decimal to a 16-bit 1's Complement binary number.")]
+    
+    a = [('text',(30,510),'dark red',"Begin by finding the binary representation of the magnitude (absolute\n" +
+                "value).  Using the technique of repeated division by 2...\n" +
+                "The answer appears in the remainders.\n\n" +
+                "%8d |"%(orig) + "\n" + aPart +
+                "\nThe resulting answer should be read from the bottom upward\n" +
+                "giving the result: " + qGenSupport.toBinary(orig,16) + "\n\n" + bPart +    
+                "Answer = " + numstr + "\n")]
+    
+    return q,a
+
+def q2l():
+    """11) Convert a signed decimal integer to 8-bit 2's Complement binary."""
+    num = random.randint(9,125)
+    Num = num
+    if random.randint(0,10) < 7:
+        Num = -num
+    
+    aPart = ""    
+    orig = num
+    while num:
+        aPart += "%8d | %d"%(num/2,num%2) + "\n"
+        num /= 2
+    
+    bPart = ""    
+    if Num < 0:
+        bPart += "Since the original number was negative, we must either invert all the bits\n"
+        bPart += "(1's complement) and add 1 OR use the 'copy until one then invert' method.\n"
+        temp = qGenSupport.toBinary(orig,8)
+        numstr = ""
+        for ch in temp:
+            if ch == "0":
+                numstr += "1"
+            else:
+                numstr += "0"
+        bPart += "The 1's complement is " + numstr + "\n\n"
+        flag = False
+        ans = ""
+        numstr = list(temp)
+        numstr.reverse()
+        for ch in numstr:
+            if flag:
+                if ch == "0": ans = "1" + ans
+                else: ans = "0" + ans
+            else:
+                ans = ch + ans
+                if ch == "1": flag = True
+    else:
+        ans = qGenSupport.toBinary(orig,8) 
+        
+    q = [('text',(30,60),'navy',"Convert "+str(Num)+" from decimal to an 8-bit 2's Complement binary number.")]
+    
+    a = [('text',(30,510),'dark red',"Begin by finding the binary representation of the magnitude (absolute\n" +
+                "value).  Using the technique of repeated division by 2...\n" +
+                "The answer appears in the remainders.\n\n" +
+                "%8d |"%(orig) + "\n" + aPart +
+                "\nThe resulting answer should be read from the bottom upward\n" +
+                "giving the result: " + qGenSupport.toBinary(orig,8) + "\n\n" +  bPart +      
+                "Answer = " + ans + "\n")]
+    
+    return q,a
+
+def q2m():
+    """12) Convert a signed decimal integer to 16-bit 2's Complement binary."""
+    num = random.randint(300,9000)
+    Num = num
+    if random.randint(0,10) < 7:
+        Num = -num
+    
+    aPart = ""    
+    orig = num
+    while num:
+        aPart += "%8d | %d"%(num/2,num%2) + "\n"
+        num /= 2
+
+    bPart = ""
+    if Num < 0:
+        bPart += "Since the original number was negative, we must either invert all the bits\n"
+        bPart += "(1's complement) and add 1 OR use the 'copy until one then invert' method.\n"
+        temp = qGenSupport.toBinary(orig,16)
+        numstr = ""
+        for ch in temp:
+            if ch == "0":
+                numstr += "1"
+            else:
+                numstr += "0"
+        bPart += "The 1's complement is " + numstr + "\n\n"
+        flag = False
+        ans = ""
+        numstr = list(temp)
+        numstr.reverse()
+        for ch in numstr:
+            if flag:
+                if ch == "0": ans = "1" + ans
+                else: ans = "0" + ans
+            else:
+                ans = ch + ans
+                if ch == "1": flag = True
+    else:
+        ans = qGenSupport.toBinary(orig,16) 
+    q = [('text',(30,60),'navy',"Convert "+str(Num)+" from decimal to a 16-bit 2's Complement binary number.")]
+    
+    a = [('text',(30,510),'dark red',"Begin by finding the binary representation of the magnitude (absolute\n" +
+                "value).  Using the technique of repeated division by 2...\n" +
+                "The answer appears in the remainders.\n\n" +
+                "%8d |"%(orig) + "\n" + aPart +
+                "\nThe resulting answer should be read from the bottom upward\n" +
+                "giving the result: " + qGenSupport.toBinary(orig,16) + "\n\n" + bPart +
+                "Answer = " + ans + "\n")]
+    
+    return q,a
+
+def q2n():
+    """13) Add 8-bit 2's complement numbers."""
+    num1 = random.randint(40,120)
+    neg = random.randint(0,10) < 6
+    if neg: num1 = -num1
+    num2 = random.randint(40,120)
+    if random.randint(0,10) < 9: 
+        if neg: num2 = -num2    
+    
+    q = [('text',(30,60),'navy',"Add these 2's complement numbers: "+str(num1)+" and "+str(num2)+"\n")]
+    
+    num1str = qGenSupport.toBinary(num1,8)
+    num2str = qGenSupport.toBinary(num2,8)
+    sumstr = qGenSupport.toBinary(qGenSupport.fromBinary(num1str)+qGenSupport.fromBinary(num2str),9)
+    sumstr = "C=" + sumstr[0] + "  " + sumstr[1:]
+
+    if num1str[0] == num2str[0] and num1str[0] != sumstr[5]:
+        aPart = "Overflow has occurred."
+    else:
+        aPart = "No overflow has occurred."  
+        
+    a = [('text',(30,510),'dark red',"     "+num1str+"\n" + "     "+num2str+"\n" + "     --------\n" +    
+                sumstr + "   " + aPart)]
+    
+    return q,a
+    
+def q2o():
+    """14) Subtract 8-bit 2's complement numbers."""
+    num1 = random.randint(40,120)
+    neg = random.randint(0,10) < 5
+    if neg: num1 = -num1
+    num2 = random.randint(40,120)
+    if random.randint(0,10) < 4: 
+        num2 = -num2    
+    
+    q = [('text',(30,60),'navy',"Subtract these 2's complement numbers: "+str(num1)+" minus "+str(num2)+"\n")]
+    
+    num1str = qGenSupport.toBinary(num1,8)
+    num2str = qGenSupport.toBinary(-num2,8)
+    sumstr = qGenSupport.toBinary(qGenSupport.fromBinary(num1str)+qGenSupport.fromBinary(num2str),9)
+    sumstr = "C=" + sumstr[0] + "  " + sumstr[1:]
+    if num1str[0] == num2str[0] and num1str[0] != sumstr[5]:
+        aPart = "Overflow has occurred."
+    else:
+        aPart = "No overflow has occurred."  
+        
+    a = [('text',(30,510),'dark red',"First find the 2's complement of the second number:\n" +
+                "The 2's Complement of " + qGenSupport.toBinary(num2,8) + " is " +num2str + ".  Then add:\n" +
+                "     "+num1str+"\n" + "     "+num2str+"\n" + "     --------\n" + sumstr + "   " + aPart)]
+                
+    return q,a
+        
+def q2p():
+    """15) Multiply 8-bit (unsigned) numbers."""
+    num1 = random.randint(12,120)
+    num2 = random.randint(12,120)
+
+    q = [('text',(30,60),'navy',"Multiply these numbers as 8-bit unsigned binary numbers: "+str(num1)+" and "+str(num2)+"\n")]
+    
+    num1str = qGenSupport.toBinary(num1,8)
+    num2str = qGenSupport.toBinary(num2,8)
+    aPart = ""
+    for i in range(7,-1,-1):
+        aPart += " "*i + " "
+        if num2str[i] == "1":
+            aPart += num1str + "\n"
+        else:
+            aPart += "00000000\n"
+    aPart += 16*"-" + "\n"
+    ansstr = qGenSupport.toBinary(num1*num2,16)
+    
+    a = [('text',(60,510),'dark red',8*" "+num1str+"\n" + 8*" "+num2str+"\n" + 8*" "+"--------\n" + aPart +
+                ansstr + "\n\n" +
+                "Notice that multiplying two 8-bit numbers gives a 16-bit answer.\n" +
+                "To add the resulting columns of bits, add up the value, then place\n" + 
+                "the least significant bit of the sum (always thinking in binary) as\n" +
+                "the sum.  The bits to the left of this sum-bit are the carry.\n\n")]
+        
+    return q,a
+
+def q2q():
+    """16) Convert a number to IEEE single precision and express in hex."""
+    wholeInt = random.randint(2,120)
+    frac = random.randint(0,62)/64.0
+    sign = random.randint(0,10) < 7
+    if sign:
+        sign = '-'
+    else:
+        sign = '+'
+    numStr = sign + str(wholeInt) + str(frac)[1:]
+    fnum = eval(numStr)
+    fnumStr = "%0.6f"%(fnum)
+    for i in range(5):
+        if fnumStr[-1] == "0":
+            fnumStr = fnumStr[:-1]
+    fracStr = "."
+    while frac:
+        frac *= 2.0
+        if frac >= 1.0:
+            frac -= 1.0
+            fracStr += "1"
+        else:
+            fracStr += "0"
+    binStr = qGenSupport.toBinary(wholeInt,0) + fracStr
+    ptLoc = string.find(binStr,".")
+    normBinStr = "1." + binStr[1:ptLoc] + binStr[ptLoc+1:]
+    sigStr = normBinStr[2:]
+    while len(sigStr) < 23:
+        sigStr += "0"
+    ieeeStrg = ""
+    if sign == '-': ieeeStrg += "1 "
+    else: ieeeStrg += "0 "
+    ieeeStrg += qGenSupport.toBinary(126+ptLoc,8) + " " + sigStr
+    ieeeStr = ieeeStrg[:1] + ieeeStrg[2:10] + ieeeStrg[11:]
+    ieeeInt = qGenSupport.fromBinary(ieeeStr)
+    if sign == '-': aPart = "1.\n"
+    else: aPart = "0.\n"
+    
+    q = [('text',(30,60),'navy',"Convert " + fnumStr + " to single-precision IEEE floating format and\n" +
+                "express as hexadecimal.")]
+        
+    a = [('text',(30,510),'dark red',"Begin by remembering the sign and then converting the unsigned mixed number\nto binary.  "+
+                "The sign is " + sign + "\n" +
+                "If you don't remember how to convert a mixed number to binary\nsee problem type '2'\n\n" +
+                "The converted unsigned value is: "  +
+                binStr + "\n" +
+                "This value could also be written as: " + sign + binStr + " x 2**0\n" +
+                "It is useful at this point for the number to be in normalized form (a single '1'\n" +
+                "before the binary point and adjusting the exponent accordingly.\n" +
+                "This value is: " +
+                sign + normBinStr + " x 2**" + str(ptLoc - 1) + "\n" +
+                "The biased exponent is determined by adding 127 to the exponent shown above.\n" +
+                "The significand is generated by 'hiding' the leading '1' bit and rounding\n" +
+                "the result to fit into 23 bits.\n\n" +
+                "Because the sign is '" + sign + "' the left-most (sign) bit will be " + aPart +
+                "The next 8 bits are the biased exponent: 127 + " + str(ptLoc - 1) + " = " + str(126+ptLoc) +
+                "\nIn binary this is " + qGenSupport.toBinary(126+ptLoc,8)    +
+                "\nThe last 23 bits are the significand: " +
+                sigStr + "\nThis leads to the following form in binary: " +
+                ieeeStrg + "\n\n" +
+                "This 32-bit number can be partitioned into groups of four bits:\n" +
+                qGenSupport.toBinary(ieeeInt,32,4) + "\n\nTherefore the answer in hex is: " +
+                "%0x"%(ieeeInt))]
+    
+    return q,a
+
+def q2r():
+    """17) Convert an IEEE single precision number to decimal."""
+    wholeInt = random.randint(2,120)
+    frac = random.randint(0,62)/64.0
+    sign = random.randint(0,10) < 7
+    if sign:
+        sign = '-'
+    else:
+        sign = '+'
+    numStr = sign + str(wholeInt) + str(frac)[1:]
+    fnum = eval(numStr)
+    fnumStr = "%0.6f"%(fnum)
+    for i in range(5):
+        if fnumStr[-1] == "0":
+            fnumStr = fnumStr[:-1]
+    fracStr = "."
+    while frac:
+        frac *= 2.0
+        if frac >= 1.0:
+            frac -= 1.0
+            fracStr += "1"
+        else:
+            fracStr += "0"
+    binStr = qGenSupport.toBinary(wholeInt,0) + fracStr
+    ptLoc = string.find(binStr,".")
+    normBinStr = "1." + binStr[1:ptLoc] + binStr[ptLoc+1:]
+    sigStr = normBinStr[2:]
+    while len(sigStr) < 23:
+        sigStr += "0"
+    ieeeStrg = ""
+    if sign == '-': ieeeStrg += "1 "
+    else: ieeeStrg += "0 "
+    ieeeStrg += qGenSupport.toBinary(126+ptLoc,8) + " " + sigStr
+    ieeeStr = ieeeStrg[:1] + ieeeStrg[2:10] + ieeeStrg[11:]
+    ieeeInt = qGenSupport.fromBinary(ieeeStr)
+    
+    q = [('text',(30,60),'navy',"Convert this IEEE single precision number (expressed in hex) " + "%0x"%(ieeeInt) +
+                "\nto its decimal, mixed number format.")]
+        
+    a = [('text',(30,510),'dark red',"Begin by converting from hex to binary: " + qGenSupport.toBinary(ieeeInt,32,4) +
+                "\nThese bits can be regrouped to represent the sign, biased exponent and\nsignificand " +
+                "like this: " + ieeeStrg + "\n\n" +
+                "Because the sign bit is " + ieeeStr[0] + " the sign is " + sign + "\n\n" +
+                "The biased exponent (in binary) is: " + qGenSupport.toBinary(126+ptLoc,8) + "\n" +
+                "In decimal this is: " + str(126+ptLoc) + "  We can remove the bias by subtracting 127.\n" +
+                str(126+ptLoc) + " - 127 = " + str(ptLoc-1) + " \n\n" +
+                "Restoring the hidden leading '1' bit to the significand we get:\n" +
+                normBinStr  + "\n\n" +
+                "It is then possible to express this number as " + sign + normBinStr + " x 2**" + str(ptLoc-1) + "\n\n" +
+                "An easy way to convert this to decimal is to un-normalize the number so that\nthe exponent " +
+                "is changed to zero.  The result is: " + sign + binStr + " x 2**0\n" +
+                "All that remains is to convert this mixed binary number to decimal and\nattach the sign.\n\n" +
+                "The result is: " + numStr)]
+    
+    return q,a
+
+def q2s():
+    """18) Determine number of check bits needed for single error correction."""
+    num = random.randint(5,200)
+    
+    aPart = ""
+    r = 2
+    while True:
+        aPart += "trying r = " + str(r) + "... inequality is "
+        if num + 1 + r <= 2**r :
+            aPart += "True.\n"
+            break
+        else:
+            aPart += "False.\n"
+        r += 1
+    
+    q = [('text',(30,60),'navy',"How many check bits are required to implement single error correction\nfor a "+str(num) +
+                "-bit number?\n")]
+    
+    a = [('text',(30,510),'dark red',"The formula (inequality) to use is (m + r + 1) <= 2**r\n\n" +
+                "where m is the number of data bits and r is the number of check bits needed.\n" +
+                "Use the smallest value of r that make the inequality true.\n\n" + aPart +
+                "\nTherefore " + str(r) + " check bits are required.\n")]
+    
+    return q,a
+
+def q2t():
+    """19) Compute the Hamming encoded version of an 8-bit number."""
+    num = random.randint(5,250)
+    numStr = qGenSupport.toBinary(num,8)
+    blankStr = numStr[0:4] + "_" + numStr[4:7] + "_" + numStr[7] + "__"
+    blankStr = string.join(list(blankStr))
+    numList = list(numStr+" ")
+    numList.reverse()
+    p8 = (int(numList[8]) + int(numList[7]) + int(numList[6]) + int(numList[5])) % 2
+    p4 = (int(numList[8]) + int(numList[2]) + int(numList[3]) + int(numList[4])) % 2
+    p2 = (int(numList[7]) + int(numList[6]) + int(numList[4]) + int(numList[3]) + int(numList[1])) % 2 
+    p1 = (int(numList[7]) + int(numList[5]) + int(numList[4]) + int(numList[2]) + int(numList[1])) % 2
+    ansStr = numStr[0:4] + str(p8) + numStr[4:7] + str(p4) + numStr[7] + str(p2) + str(p1)
+    ansStr = string.join(list(ansStr))
+    
+    q = [('text',(30,60),'navy',"Compute the needed check bits for encoding the 8-bit number " + str(num) + "\nand show the " +
+                "Hamming encoded number (in binary).  Use even parity.")]
+    
+    a = [('text',(30,510),'dark red',str(num) + " is " + numStr + " in binary.\n\n" +
+                "Using the pattern: D8 D7 D6 D5 P8 D4 D3 D2 P4 D1 P2 P1\n" +
+                "where the D-values are the original data and the P-values are parity bits\n" +
+                "that are computed by counting 1's in the appropriate subset of the data bits.\n" +
+                "The parity bit is chosen to make the total number of 1's in the set\n(including the parity bit) even.\n" +
+                "The subset can be determined by using the binary designation of each position\n" +
+                "of the 12-bit form given above numbering the bits (in binary) with 0001 on the\n" +
+                "right and 1100 on the left.\n\n" +
+                "The positions with only a single '1' bit in the numbering are the positions\n" +
+                "of the parity bits.  The columns that have a '1' in the same position as a\n" +
+                "parity position does are included in the calculation of that parity\n" +
+                "position and are simply XORed together.\n\n" +
+                "Here the parity positions are shown blank: " + blankStr + "\n\n" +
+                "The computed values of the parity bits are:\n" +
+                "P1 = " + str(int(p1)) + "\nP2 = " + str(int(p2)) + "\nP4 = " + str(int(p4)) + "\nP8 = " + str(int(p8)) + "\n\n" +
+                "Placing these bits in their proper places gives: " + ansStr)]
+    
+    return q,a
+    
+def q2u():
+    """20) Find and correct a possible error in a Hamming encoded number."""
+    num = random.randint(5,250)
+    numStr = qGenSupport.toBinary(num,8)
+    blankStr = numStr[0:4] + "_" + numStr[4:7] + "_" + numStr[7] + "__"
+    blankStr = string.join(list(blankStr))
+    numList = list(numStr+" ")
+    numList.reverse()
+    p8 = (int(numList[8]) + int(numList[7]) + int(numList[6]) + int(numList[5])) % 2
+    p4 = (int(numList[8]) + int(numList[2]) + int(numList[3]) + int(numList[4])) % 2
+    p2 = (int(numList[7]) + int(numList[6]) + int(numList[4]) + int(numList[3]) + int(numList[1])) % 2 
+    p1 = (int(numList[7]) + int(numList[5]) + int(numList[4]) + int(numList[2]) + int(numList[1])) % 2
+    probStr = numStr[0:4] + str(p8) + numStr[4:7] + str(p4) + numStr[7] + str(p2) + str(p1)
+    # errorless problem string
+    probStr = string.join(list(probStr))
+    isError = random.randint(0,10) < 8 # 73% chance of error
+    errorLoc = 0
+    if isError:
+        # plant an error
+        errorLoc = random.randint(1,12)
+        if probStr[errorLoc*2-2] == "0":
+            probStr = probStr[:errorLoc*2-2] + "1" + probStr[errorLoc*2-1:]
+        else:
+            probStr = probStr[:errorLoc*2-2] + "0" + probStr[errorLoc*2-1:] 
+    rawDataStr = probStr[0] + probStr[2] + probStr[4] + probStr[6]
+    rawDataStr += probStr[10] + probStr[12] + probStr[14] + probStr[18]
+    rawList = list(rawDataStr + " ")
+    rawList.reverse()
+    # extract the old parity bits
+    r8 = int(probStr[8])
+    r4 = int(probStr[16])
+    r2 = int(probStr[20])
+    r1 = int(probStr[22])
+    # compute the new parity bits
+    n8 = (int(rawList[8]) + int(rawList[7]) + int(rawList[6]) + int(rawList[5])) % 2
+    n4 = (int(rawList[8]) + int(rawList[2]) + int(rawList[3]) + int(rawList[4])) % 2
+    n2 = (int(rawList[7]) + int(rawList[6]) + int(rawList[4]) + int(rawList[3]) + int(rawList[1])) % 2 
+    n1 = (int(rawList[7]) + int(rawList[5]) + int(rawList[4]) + int(rawList[2]) + int(rawList[1])) % 2
+    # compute the syndrome
+    syndrome = 0
+    if r8 != n8: syndrome += 8
+    if r4 != n4: syndrome += 4
+    if r2 != n2: syndrome += 2
+    if r1 != n1: syndrome += 1
+    
+    aPart = ""
+    if syndrome:
+        aPart += "There is an error because the re-computed parity bits do not match the given\n"
+        aPart += "ones.  The error location can be determined by XORing the new parity bits\n"
+        aPart += "with the bits directly above them producing a 4-bit syndrome.  The syndrome\n"
+        aPart += "identifies the location of the error.  The bit that is in error can then be\n"
+        aPart += "inverted to give the correct answer.\n\n"
+        aPart += "The syndrome is: " + qGenSupport.toBinary(syndrome,4) + "\n"
+        if syndrome == 8 or syndrome == 4 or syndrome == 2 or syndrome == 1:
+            aPart += "One of the parity bits was in error.  The data bits are okay.\n\n"
+        else:
+            aPart += "Counting from the right, bit number " + str(syndrome) + " is in error.\n"
+            aPart += "Inverting this bit gives the correct data.\n"
+    else:
+        aPart += "There is no error because the re-computed parity bits match those above them.\n"
+        aPart += "The data bits can simply be extracted to give the answer.\n"
+        
+    q = [('text',(30,60),'navy',"Examine this Hamming encoded number (8 data bits) " + probStr + "\n" +
+                "to determine if there is an error.  If there is an error, correct it.\n" +
+                "Show the correct 8-bit data value (in binary).")]
+    
+    a = [('text',(30,510),'dark red',"Using the pattern: D8 D7 D6 D5 P8 D4 D3 D2 P4 D1 P2 P1\n" +
+                "where the D-values are the original data and the P-values are parity bits\n" +
+                "that are computed by counting 1's in the appropriate subset of the data bits.\n" +
+                "The parity bit is chosen to make the total number of 1's in the set\n(including the parity bit) even.\n" +
+                "The subset can be determined by using the binary designation of each position\n" +
+                "of the 12-bit form given above numbering the bits (in binary) with 0001 on the\n" +
+                "right and 1100 on the left.\n\n" +
+                "Re-compute the parity bits and compare these to the parity bits that were given.\n" +
+                "Original number = " + probStr + "\n" +
+                "Recomputed parity bits =  " + str(n8) + "       " + str(n4) + "   " + str(n2) + " " + str(n1) + "\n\n" + aPart +
+                "Answer = " + numStr + "\n")]
+    
+    return q,a
+
+def nrz(inStr):
+    outStr = ""
+    for ch in inStr:
+        if ch == "1":
+            outStr += "11"
+        else:
+            outStr += "00"
+    return outStr
+
+def flip(ch):
+    if ch == "0": ch = "1"
+    else: ch = "0"
+    return ch
+    
+def opp(ch):
+    if ch == "0": return "1"
+    else: return "0"
+        
+def nrzi(inStr, prev = "1"):
+    outStr = ""
+    for ch in inStr:
+        if ch == "1":
+            outStr += prev
+            prev = flip(prev)
+            outStr += prev
+        else:
+            outStr += prev*2
+    return outStr        
+    
+def pm(inStr): # Manchester coding
+    outStr = ""
+    for ch in inStr:
+        if ch == "1":
+            outStr += "01"
+        else:
+            outStr += "10"
+    return outStr
+    
+def fm(inStr, prev = "1"):
+    outStr = ""
+    for ch in inStr:
+        if ch == "1":
+            outStr += opp(prev)
+            outStr += prev
+        else:
+            prev = flip(prev)
+            outStr += prev*2
+    return outStr          
+
+def mfm(inStr, prev = "0", pch = "1"):
+    outStr = ""
+    for ch in inStr:
+        if ch == "1":
+            outStr += prev
+            prev = flip(prev)
+            outStr += prev
+        else:
+            if pch == ch:
+                prev = flip(prev)
+            outStr += prev*2
+        pch = ch
+    return outStr         
+
+#~ def rll27(inStr, prev="0"):  # RLL(2,7)
+    #~ length = len(inStr)
+    #~ outStr = ""
+    #~ p = 0
+    #~ inStr += "000"
+    #~ while p < length:
+        #~ if inStr[p:p+2] == "10":
+            #~ outStr += "0100"
+            #~ p += 2
+        #~ elif inStr[p:p+2] == "11":
+            #~ outStr += "1000"
+            #~ p += 2
+        #~ elif inStr[p:p+3] == "000":
+            #~ outStr += "000100"
+            #~ p += 3
+        #~ elif inStr[p:p+3] == "010":
+            #~ outStr += "100100"
+            #~ p += 3
+        #~ elif inStr[p:p+3] == "011":
+            #~ outStr += "001000"
+            #~ p += 3
+        #~ elif inStr[p:p+4] == "0010":
+            #~ outStr += "00100100"
+            #~ p += 4
+        #~ else:
+            #~ outStr += "00001000"
+            #~ p += 4
+    #~ return nrzi(outStr,prev)
+
+def q2_0():
+    """21) Convert a binary number to NRZ format."""
+    num = random.randint(2000,60000)
+    q = (('text',(20,100),'navy',"What is the NRZ representation of " + qGenSupport.toBinary(num,16,1) + " ?\n\n"),)
+    a = (('text',(20,550),'navy',"With NRZ, 1's are represented by a high signal and 0's by a low signal.\n\n"+
+                     "Therefore the encoding of " + qGenSupport.toBinary(num,16,1) + " is\n\n"),
+         ('waveform',(20,700),0,nrz(qGenSupport.toBinary(num,16))),)
+    return q,a
+
+def q2_1():
+    """22) Convert an NRZ format number to binary."""
+    num = random.randint(2000,60000)
+    q = (('text',(20,100),'navy',"What is the binary number associated with this NRZ waveform?\n"),
+         ('waveform',(20,250),0,nrz(qGenSupport.toBinary(num,16))),)
+    a = (('text',(20,550),'navy',"With NRZ, 1's are represented by a high signal and 0's by a low signal.\n"+
+                          "The answer is: " + qGenSupport.toBinary(num,16,1)),)
+    return q,a
+
+def q2_2():
+    """23) Convert a binary number to NRZI format."""
+    num = random.randint(2000,60000)
+    q = (('text',(20,100),'navy',"What is the NRZI representation of " + qGenSupport.toBinary(num,16,1) + " ?\n\n"),)
+    a = (('text',(20,550),'navy',"With NRZI, 1's have a mid-cell transition and 0's have no mid-cell transition.\n\n"+
+                      "The answer below could be inverted depending on whether you choose to start high or low.\n\n"+
+                     "Therefore the encoding of " + qGenSupport.toBinary(num,16,1) + " is\n\n"),
+         ('waveform',(20,700),0,nrzi(qGenSupport.toBinary(num,16))),)
+    return q,a
+
+def q2_3():
+    """24) Convert an NRZI format number to binary."""
+    num = random.randint(2000,60000)
+    q = (('text',(20,100),'navy',"What is the binary number associated with this NRZI waveform?\n"),
+         ('waveform',(20,250),0,nrzi(qGenSupport.toBinary(num,16))),)
+    a = (('text',(20,550),'navy',"With NRZI, 1's have a mid-cell transition and 0's have no mid-cell transition.\n"+
+                          "The answer is: " + qGenSupport.toBinary(num,16,1)),)
+    return q,a
+
+def q2_4():
+    """25) Convert a binary number to Phase Modulation (Manchester) format."""
+    num = random.randint(2000,60000)
+    q = (('text',(20,100),'navy',"What is the Manchester representation of " + qGenSupport.toBinary(num,16,1) + " ?\n\n"),)
+    a = (('text',(20,550),'navy',"With Manchester coding, 1's have an upward mid-cell transition\n"+
+                     "and 0's have a downward mid-cell transition.\n\n"+
+                     "Therefore the encoding of " + qGenSupport.toBinary(num,16,1) + " is\n\n"),
+         ('waveform',(20,700),0,pm(qGenSupport.toBinary(num,16))),)
+    return q,a
+
+def q2_5():
+    """26) Convert a Manchester encoded number to binary."""
+    num = random.randint(2000,60000)
+    q = (('text',(20,100),'navy',"What is the binary number associated with this Manchester waveform?\n"),
+         ('waveform',(20,250),0,pm(qGenSupport.toBinary(num,16))),)
+    a = (('text',(20,550),'navy',"With Manchester coding, 1's have an upward mid-cell transition\n"+
+                     "and 0's have a downward mid-cell transition.\n"+
+                     "The answer is: " + qGenSupport.toBinary(num,16,1)),)
+    return q,a
+    
+def q2_6():
+    """27) Convert a binary number to Frequency Modulation (FM) format."""
+    num = random.randint(2000,60000)
+    q = (('text',(20,100),'navy',"What is the Frequency Modulation (FM) representation of " + qGenSupport.toBinary(num,16,1) + " ?\n\n"),)
+    a = (('text',(20,550),'navy',"With FM coding, there is a transition on every cell boundry.\n"+
+                     "1's have a mid-cell transition and 0's have no mid-cell transition.\n\n"+
+                     "Therefore the encoding of " + qGenSupport.toBinary(num,16,1) + " is\n\n"),
+         ('waveform',(20,700),0,fm(qGenSupport.toBinary(num,16))),)
+    return q,a
+
+def q2_7():
+    """28) Convert a Frequency Modulation (FM) encoded number to binary."""
+    num = random.randint(2000,60000)
+    q = (('text',(20,100),'navy',"What is the binary number associated with this Frequency Modulation (FM) waveform?\n"),
+         ('waveform',(20,250),0,fm(qGenSupport.toBinary(num,16))),)
+    a = (('text',(20,550),'navy',"With FM coding, there is a transition on every cell boundry.\n"+
+                     "1's have a mid-cell transition and 0's have no mid-cell transition.\n"+
+                     "The answer is: " + qGenSupport.toBinary(num,16,1)),)
+    return q,a    
+    
+def q2_8():
+    """29) Convert a binary number to Modified Frequency Modulation (MFM) format."""
+    num = random.randint(2000,60000)
+    q = (('text',(20,100),'navy',"What is the Modified Frequency Modulation (MFM) representation of\n\n" + qGenSupport.toBinary(num,16,1) + " ?\n\n"),)
+    a = (('text',(20,550),'navy',"With MFM coding, there is a transition on cell boundries only between consecutive zeros.\n"+
+                     "1's have a mid-cell transition and 0's have no mid-cell transition.\n\n"+
+                     "Therefore the encoding of " + qGenSupport.toBinary(num,16,1) + " is\n\n"),
+         ('waveform',(20,700),0,mfm(qGenSupport.toBinary(num,16))),)
+    return q,a
+
+def q2_9():
+    """30) Convert a Modified Frequency Modulation (MFM) encoded number to binary."""
+    num = random.randint(2000,60000)
+    q = (('text',(20,100),'navy',"What is the binary number associated with this Modified Frequency Modulation (MFM) waveform?\n"),
+         ('waveform',(20,250),0,mfm(qGenSupport.toBinary(num,16))),)
+    a = (('text',(20,550),'navy',"With MFM coding, there is a transition on cell boundries only between consecutive zeros.\n"+
+                     "1's have a mid-cell transition and 0's have no mid-cell transition.\n"+
+                     "The answer is: " + qGenSupport.toBinary(num,16,1)),)
+    return q,a        
+    
+# list of question functions    
+ques = [q2a,q2b,q2c,q2d,q2e,q2f,q2g,q2h,q2i,q2j,q2k,q2l,q2m,q2n,q2o,q2p,q2q,q2r,q2s,q2t,q2u,q2_0,q2_1,q2_2,q2_3,q2_4,q2_5,q2_6,q2_7,q2_8,q2_9]
+chapter = 2

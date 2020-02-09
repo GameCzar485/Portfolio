@@ -1,0 +1,25 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` FUNCTION `CheckIfBranchExists`(
+	`b_id` INT
+
+)
+RETURNS char(10) CHARSET latin1
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
+BEGIN
+	declare branchCount INT;
+	declare checker CHAR(10) DEFAULT "False";
+	
+	SELECT COUNT(*)
+	INTO branchCount
+	FROM branch
+	WHERE BRANCH_ID = b_id;
+	
+	IF branchCount = 1 THEN
+		SET checker = "True";
+	END IF;
+	RETURN checker;
+END $$

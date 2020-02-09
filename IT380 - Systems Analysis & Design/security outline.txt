@@ -1,0 +1,14 @@
+four different sets of user roles and permissions
+
+
+-underwriter
+desc
+
+-processor
+desc
+
+-customer
+desc
+
+-broker
+desc

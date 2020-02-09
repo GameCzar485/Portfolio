@@ -1,0 +1,15 @@
+using System.Collections;
+using System. Collections.Generic;
+using UnityEngine;
+
+public class Spawner : MonoBehavior
+{
+	public ICopy aCopy;
+	
+	public Monster SpawnMonster(Monster aPrototype)
+	{
+		aCopy = aPrototype.Copy();
+		return (Monster)aCopy;
+		
+	}
+}

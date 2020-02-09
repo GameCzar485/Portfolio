@@ -1,0 +1,40 @@
+IT340 10/1/2018
+
+Composite keys - A primary key with more than one attribute
+
+Surrogate Key - is an artificial PK that is used to ID each entity occurrence when there is no good natural key.
+
+Steps for designing data Structure::
+
+1. Identify elements
+
+2. Subdivide each element into smallest useful components
+
+3. Identify tables and assign columns
+
+4. Identify primary key, foreign key, and relationships
+
+5. Create ERD
+
+6. Normalize Data
+
+7. Revise ERD
+
+8. Create the Database
+
+9. Identify indexes
+
+10. Test the Database
+
+-----------------------------------------------------------------------------------------------------------------------
+
+UNF > 1NF > 2NF > 3NF > BCNF > 4NF > 5NF > 6NF
+
+Normalization - Process of removing redundant data.
+
+3NF is sufficient for most databases
+
+UNF == one huge table
+
+1NF == a unique primary key is defined, a table must not contain repeating columns, and a table must not have multi-valued attributes
+

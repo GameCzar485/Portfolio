@@ -1,0 +1,10 @@
+IT 320 03/18/2019
+Digital Combo Units
+
+Half adder
+Full adder
+decoder
+parity generator
+multiplexer
+7 segment decoder
+2 bit combarator

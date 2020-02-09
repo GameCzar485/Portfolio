@@ -1,0 +1,26 @@
+IT340-3 9/24/18
+
+Creating a DB:
+
+Step 1: Gathering information on the DB's Business rules.
+
+Step 2: Build an ERD based off of the business rules.
+
+Step 3: Perform normalization
+
+Step 4: Build the Database (either through GUI or through SQL code)
+
+Step 5: Put in some Data
+
+Step 6: Ask simple questions of the Data
+
+======================================================================
+
+Front End Developement: HTML/CSS/JAVASCRIPT Coding an user interface.
+
+Back End Developement: PYTHON/ASP/JSP/PHP/ColdFusion/CGI/PERL/JS Embeded SQL code.
+
+Why a Dotted line instead of a Solid line in ERD?  Dotted == Weak link, Solid == Strong Link, Solids have the same primary key in both, Dotted has two different primary keys and one accepts the others key as a fake key
+
+Weak Entity: Depends on existance of another entity, and has a primary key derived from the parent entity
+

@@ -1,0 +1,6 @@
+LOAD DATA INFILE 'the/files/FilePath' 
+INTO TABLE destinationTable 
+FIELDS TERMINATED BY ',' 
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS (first, row, of, values) 
+SET specialFormats = LikeDate(%m/%d/%y)etc;

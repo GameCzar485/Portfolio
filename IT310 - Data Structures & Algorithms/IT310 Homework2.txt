@@ -1,0 +1,16 @@
+IT310 - Homework 2
+So... the two graphs are very similar due to the fact that none of the sorting methods really have any
+difference in procedure even if the lists are already sorted when inputed. Now that that's been stated,
+we move on to the reason each sort has a different time output. The reason that Dual Selection Sort is
+the slowest is because of the way I have it implemented. I'm sure there's someone out there who could
+make it more effeicient, but that someone is not me. So in the end Dual Selection Sort ended up with a
+O(n^2) complexity with a slightly larger slope magnifier than the others. On to Selection Sort, which 
+is really just a less complex version of Dual Selection Sort simply due to less if checks, thus leading 
+to a smaller slope magnifier than Dual Selection Sort, but the same O(n^2) complexity overall. Next we
+have Bubble Sort which keeps to the previous sorts with it's O(n^2) complexity, but ended up having a 
+slope magnifier between Selection and Dual Selection Sort. I would attribute this simply to the way the
+method works with it overall just taking a few extra steps than Selection Sort. And lastly we have 
+Insertion Sort, which is by far the fastest of all the tested methods with its O(n^2) complexity
+with an extremely small slope magnifier. The reason for the significant decrease in runtime would be 
+easily attributed to the fact that this is the only insertion method that does nothing to the items in 
+the list which are already in their proper place.

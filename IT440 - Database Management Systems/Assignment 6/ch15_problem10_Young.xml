@@ -1,0 +1,19 @@
+<?xml version="1.0">
+<!DOCTYPE Order SYSTEM "ch15_problem10_Young.dtd">
+<OrderData>
+    <Order>
+        <ORD_ID>952</ORD_ID>
+        <ORD_DATE>02-Feb-2018</ORD_DATE>
+        <ORD_REQ_NUM></ORD_REQ_NUM>
+        <ORD_PO_NUM>245650</ORD_PO_NUM>
+        <VEN_CODE>CART</VEN_CODE>
+        <ORD_INV_NUM>9362</ORD_INV_NUM>
+        <ORD_DESCRIP>(5)Remanuf</ORD_DESCRIP>
+        <ORD_SHIP_COST>0.00</ORD_SHIP_COST>
+        <ORD_TOT_COST>284.68</ORD_TOT_COST>
+        <USER_ID>17</USER_ID>
+        <ORD_DATE_REC>07-Feb-2018</ORD_DATE_REC>
+        <ORD_STATUS>REC</ORD_STATUS>
+        <ORD_FUND_TYPE>LAB</ORD_FUND_TYPE>
+    </Order>
+</OrderData>

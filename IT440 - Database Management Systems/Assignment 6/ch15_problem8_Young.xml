@@ -1,0 +1,16 @@
+<?xml version="1.0">
+<!DOCTYPE Customer SYSTEM "ch15_problem8_Young.dtd">
+<CustomerExchange>
+    <Customer>
+        <CUS_CODE>10020</CUS_CODE>
+        <CUS_LNAME>Johnson</CUS_LNAME>
+        <CUS_FNAME>Jan</CUS_FNAME>
+        <CUS_INITIAL>W</CUS_INITIAL>
+        <CUS_AREACODE>612</CUS_AREACODE>
+        <CUS_PHONE>865-3420</CUS_PHONE>
+        <CUS_INSURE_TYPE>T2</CUS_INSURE_TYPE>
+        <CUS_INPUT_AMT>300</CUS_INPUT_AMT>
+        <CUS_RENEW_DATE>11/23/2018</CUS_RENEW_DATE>
+        <AGENT_CODE>502</AGENT_CODE>
+    </Customer>
+</CustomerExchange>

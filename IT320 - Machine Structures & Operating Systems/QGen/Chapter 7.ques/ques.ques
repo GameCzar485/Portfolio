@@ -1,0 +1,66 @@
+import random
+import string
+from math import sqrt
+       
+def q7_0(seed=None):
+    """0) Amdahl's Law Calculations."""
+    s=[("CPU","disk system"),("integer unit","floating point unit"),("CPU","network connection")]
+    sn = random.randint(0,len(s)-1)
+    s1 = s[sn][0]
+    s2 = s[sn][1]
+    if random.randint(0,1):
+        s1,s2 = s2,s1
+    pct1 = random.randint(2,18)*5  # percent represented by part 1 as integer.
+    pct2 = 100 - pct1               # percent represented by part 2 as integer.
+    imp = random.randint(1,29)*10   # percent speedup of part 1 as integer.
+    sCalc = 1/((1.0-pct1/100.) + (float(pct1)/(imp+100.)))  # calculated speedup
+    sCalcS = "%0.3f times as fast.\nThis can also be expressed as %0.1f%% faster."%(sCalc,(sCalc-1)*100.)
+ 
+    q = [('text',(30,60),'navy',"Suppose that a computer system running a dedicated application utilizes the\n"+s1+" "+
+                                 str(pct1) + "% of the time.  The "+ s2 + " is used "+str(pct2) + "% of the time.\n"+
+                                 "You have an option to make the " + s1 + " " + str(imp) + "% faster.  What will be the\n"+ 
+                                 "overall speedup of the system if this improvement is implemented?")]
+    al = """
+                1
+    S = -----------------
+        ( 1 - f ) + f / k"""
+        
+    a = [('text',(30,510),'dark red',"Amdahl's Law states:"+al +"\n"+
+                                      "\nWhere S is the overall speedup,\n"+
+                                      "      f is the fraction of the system impacted by the improvement, and\n"+
+                                      "      k is the speedup of the impacted portion.\n\n"+
+                                      "In this problem, f is "+str(pct1)+"% (or "+str(pct1/100.)+") and\n"+
+                                      "                 k is %0.2f times as fast"%(1. + imp/100.)+ "\n\n"+
+                                      "The overall speedup is " + sCalcS)]
+    return q,a        
+ 
+def q7_1(seed=None):
+    """1) Disk Access Time Calculations."""
+    rpmList = [3600,4000,4500,4800,5000,5400,6000,7200,8400,10000,12000]
+    rpm = rpmList[random.randint(0,len(rpmList)-1)]
+    seek = random.randint(12,45)/10.0
+    
+    q = [('text',(30,60),'navy',"If a hard disk spins at "+ str(rpm) + " rpm and has an average\n"+
+                                 "track-to-track seek time of " + str(seek) + " milliseconds, find the\n"
+                                 "average rotational latency (arl) and the average access time.")]
+    
+    arl = 30000./rpm
+    aat = arl + seek
+    
+    a = [('text',(30,510),'dark red',"Average rotational latency (arl) is the time for the disk to spin\n"+
+                                      "half of a revolution.  We will measure arl in milliseconds, but the\n"+
+                                      "rotational speed is given in revolutions per minute (rpm).\n\nStart by finding "+
+                                      "the rotational speed in revolutions per second.\n"+
+                                      "Revolutions per second = rpm/60 = %0.2f revolutions/second for this disk.\n"%(rpm/60.)+
+                                      "The reciprocal of this is seconds per revolution = 60/rpm = %0.5f for this disk\n"%(60./rpm)+
+                                      "Milliseconds per revolution is just 1000 times this: %0.2f milliseconds/revolution\n"%(60000./rpm)+
+                                      "The time for half of a revolution is the arl: %0.2f milliseconds\n"%(arl)+
+                                      "You can simplify all these calculations to 30,000/rpm if you understand how we got here.\n\n"+
+                                      "The average access time is simply the arl + seek time.\n"+
+                                      "This disk's Average Access Time = %0.2f + %0.1f = %0.2f milliseconds."%(arl,seek,aat))]
+    return q,a        
+ 
+
+# list of question functions    
+ques = [q7_0,q7_1]
+chapter = 7

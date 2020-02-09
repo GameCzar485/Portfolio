@@ -1,0 +1,15 @@
+<?xml version="1.0>
+<!DOCTYPE note SYSTEM "email.dtd">
+<!DOCTYPE note [
+<!ELEMENT note (to, from, subject, email)>
+<!ELEMENT to (#PCDATA)>
+<!ELEMENT from (#PCDATA)>
+<!ELEMENT subject (#PCDATA)>
+<!ELEMENT email (#PCDATA)>
+]>
+<note>
+    <to>Barack Obama</to>
+    <from>Michelle Obama</from>
+    <subject>Meeting Tomorrow</subject>
+    <email>Do not forget that you are golfing with Carter ar Augusta tomorrow</email>
+</note>

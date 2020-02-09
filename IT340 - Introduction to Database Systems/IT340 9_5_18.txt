@@ -1,0 +1,12 @@
+IT340-3 9/5/18
+Matthew Young
+
+Standard Query Language
+SQL
+T-SQL == Transaction-SQL
+PL/SQL == 
+
+Two goals for the class:
+Do you know how to design a Database?  (How to design a data model)
+
+

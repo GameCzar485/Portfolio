@@ -1,0 +1,18 @@
+IT340-3 09/12/18
+
+SQL == Structured Query Language (Became standard in 1980s)
+
+Microsoft introduced SQL server in 1990s
+
+MetaData = Data about data (not the phone call, but the time it occured and for how long)
+
+My SQL -- open source but not as good as SQL server or Oracle (now owned by Oracle)
+
+Polyglot -- an organization is not relying on only one database
+
+NoSQL -- Made in 2000s  (google,facebook)  (First was BigTable)   (Doesn't require schema)
+
+Flat Files - contain records but provide no information about file structure or relationships.
+
+Hierarchical Database - Built with parent/child relationships
+

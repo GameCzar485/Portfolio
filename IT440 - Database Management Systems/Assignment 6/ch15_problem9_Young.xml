@@ -1,0 +1,11 @@
+<?xml version="1.0">
+<!DOCTYPE ProdPrice SYSTEM "ch15_problem9_Young.dtd">
+<ProdPriceData>
+    <ProdPrice>
+        <PROD_CODE>5168-KJ5</PROD_CODE>
+        <PROD_DESCRIPT>A large cylinder of comical proportions</PROD_DESCRIPT>
+        <PROD_PRICE>15.65</PROD_PRICE>
+        <PROD_ON_HAND>16</PROD_ON_HAND>
+        <VEND_CODE>230</VEND_CODE>
+    </ProdPrice>
+</ProdPriceData>

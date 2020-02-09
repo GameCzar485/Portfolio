@@ -1,0 +1,109 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` FUNCTION `CheckIfBranchExists`(
+	`b_id` INT
+
+)
+RETURNS char(10) CHARSET latin1
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
+BEGIN
+	declare branchCount INT;
+	declare checker CHAR(10) DEFAULT "False";
+	
+	SELECT COUNT(*)
+	INTO branchCount
+	FROM branch
+	WHERE BRANCH_ID = b_id;
+	
+	IF branchCount = 1 THEN
+		SET checker = "True";
+	END IF;
+	RETURN checker;
+END $$
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` FUNCTION `CheckIfDepartmentExists`(
+	`d_id` INT,
+	`d_name` VARCHAR(30),
+	`b_id` INT
+
+
+)
+RETURNS char(10) CHARSET latin1
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
+BEGIN
+	declare deptCount INT;
+	declare dchecker CHAR(10) DEFAULT "False";
+	
+	SELECT COUNT(*) INTO deptCount
+	FROM department
+	WHERE DEPT_ID = d_id
+	AND DEPT_Name = d_name
+	AND BRANCH_ID = b_id;
+	
+	IF deptCount = 1 THEN
+		SET dchecker = "True";
+	END IF;
+	RETURN dchecker;	
+END $$
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` FUNCTION `GenNewDeptNum`()
+RETURNS int(11)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
+BEGIN
+	declare deptCount INT;
+	
+	SELECT COUNT(*)
+	INTO deptCount
+	FROM department d
+		INNER JOIN branch b
+		ON d.BRANCH_ID = b.BRANCH_ID
+		INNER JOIN employee e
+		ON d.DEPT_ID = e.DEPT_ID;
+	RETURN deptCount + 1;
+END $$
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addNewDepartment`(
+	IN `b_id` INT,
+	IN `d_id` INT,
+	IN `d_name` VARCHAR(30),
+	IN `e_id` INT
+
+
+
+
+
+
+
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
+BEGIN
+	declare branchCheck CHAR(10);
+	declare departmentCheck CHAR(10);
+	declare newNum INT;
+	SET branchCheck = CheckIfBranchExists(b_id);
+	SET departmentCheck = CheckIfDepartmentExists(d_id, d_name, b_id);
+	SET newNum = GenNewDeptNum();
+	
+	IF branchCheck = "True" THEN
+		IF departmentCheck = "False" THEN
+			INSERT INTO department (DEPT_ID, DEPT_Name, BRANCH_ID) VALUES (newNum, d_name, b_id);
+			UPDATE employee
+				SET DEPT_ID = newNum WHERE EMPE_ID = e_id;
+		END IF;
+	END IF;
+END $$

@@ -1,0 +1,7 @@
+using System.Collections.Generic;
+using UnityEgnine;
+
+public interface ICopy
+	{
+		ICopy Copy();
+	}

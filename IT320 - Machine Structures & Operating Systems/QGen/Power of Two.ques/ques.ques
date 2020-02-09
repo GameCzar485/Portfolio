@@ -1,0 +1,150 @@
+import random
+import string
+
+def q9_0():
+    """0) Sample Power of 2 Quiz."""
+    x=(('0','1'),
+       ('1','2'),
+       ('2','4'),
+       ('3','8'),
+       ('4','16'),
+       ('5','32'),
+       ('6','64'),
+       ('7','128'),
+       ('8','256'),
+       ('9','512'),
+       ('10','1,024','1 kilobyte'),
+       ('11','2,048','2 kilobytes'),
+       ('12','4,096','4 kilobytes'),
+       ('13','8,192','8 kilobytes'),
+       ('14','16,384','16 kilobytes'),
+       ('15','32,768','32 kilobytes'),
+       ('16','65,536','64 kilobytes'),
+       ('17',str(2**17),'128 kilobytes'),
+       ('18',str(2**18),'256 kilobytes'),
+       ('19',str(2**19),'512 kilobytes'),
+       ('20',str(2**20),'1 megabyte','1 million','1,000,000'),
+       ('21',str(2**21),'2 megabytes','2 million','2,000,000'),
+       ('22',str(2**22),'4 megabytes','4 million','4,000,000'),
+       ('23',str(2**23),'8 megabytes','8 million','8,000,000'),
+       ('24',str(2**24),'16 megabytes','16 million','16,000,000'),
+       ('25',str(2**25),'32 megabytes','32 million','32,000,000'),
+       ('26',str(2**26),'64 megabytes','64 million','64,000,000'),
+       ('27',str(2**27),'128 megabytes','128 million','128,000,000'),
+       ('28',str(2**28),'256 megabytes','256 million','256,000,000'),
+       ('29',str(2**29),'512 megabytes','512 million','512,000,000'),
+       ('30',str(2**30),'1 gigabyte','1 billion','1,000,000,000'),
+       ('31',str(2**31),'2 gigabytes','2 billion','2,000,000,000'),
+       ('32',str(2**32),'4 gigabytes','4 billion','4,000,000,000'),
+       ('33',str(2**33),'8 gigabytes','8 billion','8,000,000,000'),
+       ('34',str(2**34),'16 gigabytes','16 billion','16,000,000,000'),
+       ('35',str(2**35),'32 gigabytes','32 billion','32,000,000,000'),
+       ('36',str(2**36),'64 gigabytes','64 billion','64,000,000,000'),
+       ('37',str(2**37),'128 gigabytes','128 billion','128,000,000,000'),
+       ('38',str(2**38),'256 gigabytes','256 billion','256,000,000,000'),
+       ('39',str(2**39),'512 gigabytes','512 billion','512,000,000,000'),
+       ('40',str(2**40),'1 terabyte','1 trillion','1,000,000,000,000'),
+       ('41',str(2**41),'2 terabytes','2 trillion','2,000,000,000,000'),
+       ('42',str(2**42),'4 terabytes','4 trillion','4,000,000,000,000'),
+       ('43',str(2**43),'8 terabytes','8 trillion','8,000,000,000,000'),
+       ('44',str(2**44),'16 terabytes','16 trillion','16,000,000,000,000'),
+       ('45',str(2**45),'32 terabytes','32 trillion','32,000,000,000,000'))
+       
+    z=random.randint(4,16)
+    q1=str(z)
+    a1=x[z][1]
+    
+    z=random.randint(21,45)
+    q2=str(z)
+    a2=x[z][3]+" or "+x[z][4]
+    
+    z=random.randint(3,16)
+    q3=str(z)
+    a3=str(2**(z-1)-1)
+    if len(a3)>3: a3=a3[:-3]+','+a3[-3:]
+    
+    z=random.randint(10,45)
+    q4=str(x[z][2])
+    a4="2**"+str(z)
+    
+    z=random.randint(20,45)
+    q5=str(z)
+    a5=x[z][2]+" or "+x[z][3]+" locations"
+    
+    z=random.randint(20,44)
+    q6a=x[z][4]
+    if random.randint(0,10)>3:
+        q6b="2**"+str(z)
+        a6=q6b
+    else:
+        q6b="2**"+str(z-1)
+        a6=q6a
+    
+    while True:
+        z1=random.randint(2,12)
+        z2=random.randint(2,12)
+        if z1+z2<17: break
+            
+    q7a=str(z1)
+    q7b=str(z2)
+    a7=x[z1+z2][1]
+    
+    while True:
+        z1=random.randint(25,50)
+        z2=random.randint(5,30)
+        if z1-z2>19: break
+        
+    q8a=str(z1)
+    q8b=str(z2)
+    a8=x[z1-z2][3]+" or "+x[z1-z2][4]
+    
+    while True:
+        z1=random.randint(3,11)
+        z2=random.randint(3,11)
+        if z1 != z2: break
+            
+    q9a=str(z1)
+    q9b=str(z2)
+    a9=str(2**z1 + 2**z2)
+    if len(a9)>3: a9=a9[:-3]+','+a9[-3:]
+    
+    z=random.randint(-6,1)    
+    if z<0:
+        q10="("+str(z)+")"
+        a10="1/"+x[-z][1]
+    else:
+        q10=str(z)
+        a10=x[z][1]
+
+    
+    q = [('text',(140,20),'blue',"When you are presented the Power of 2 Quiz in class, you will have exactly 5 minutes\n" +
+                                  "to answer a set of questions like these.  If you really know the material, you should\n" +
+                                  "be able to do these in less than 2 minutes.\n\n"),
+         ('text',(30,100),'navy'," 1. Express the *exact* value of 2**"+q1+" as an integer.\n\n" +
+                                  " 2. What is the *approximate* value of 2**"+q2+"?\n\n" +
+                                  " 3. What is the largest positive 2's complement integer that fits in a "+q3+"-bit register?\n\n" +
+                                  " 4. Express "+q4+" as a power of 2.\n\n" +
+                                  " 5. *Approximately* how many unique memory locations can be specified with a "+q5+"-bit address?\n\n" +
+                                  " 6. Which value is larger, "+q6a+" or "+q6b+"?\n\n" +
+                                  " 7. What is the *exact* value of 2**"+q7a+" * 2**"+q7b+"?\n\n" +
+                                  " 8. What is the *approximate* value of 2**"+q8a+" / 2**"+q8b+"?\n\n" +
+                                  " 9. What is the *exact* value of 2**"+q9a+" + 2**"+q9b+"?\n\n" +
+                                  "10. What is the *exact* value of 2**"+q10+"?\n\n")]
+    a = [('text',(30,510),'red', " 1. "+a1+"\n\n" +
+                                  " 2. "+a2+"\n\n" +
+                                  " 3. "+a3+"\n\n" +
+                                  " 4. "+a4+"\n\n" +
+                                  " 5. "+a5+"\n\n" +
+                                  " 6. "+a6+"\n\n" +
+                                  " 7. "+a7+"\n\n" +
+                                  " 8. "+a8+"\n\n" +
+                                  " 9. "+a9+"\n\n" +
+                                  "10. "+a10+"\n\n")]
+    
+    return q,a        
+ 
+
+# list of question functions    
+ques = [q9_0]
+chapter = 0
+

@@ -1,0 +1,31 @@
+DEPT_ID,DEPT_Name,BRANCH_ID
+1,Marketing,1
+2,Services,3
+3,Human Resources,2
+4,Legal,2
+5,Sales,1
+6,Legal,2
+7,Sales,1
+8,Engineering,2
+9,Legal,1
+10,Research and Development,3
+11,Support,3
+12,Business Development,3
+13,Support,3
+14,Engineering,2
+15,Services,3
+16,Support,1
+17,Business Development,2
+18,Support,2
+19,Marketing,1
+20,Training,3
+21,Support,2
+22,Engineering,3
+23,Research and Development,3
+24,Support,1
+25,Services,3
+26,Sales,1
+27,Sales,3
+28,Marketing,3
+29,Marketing,1
+30,Business Development,3

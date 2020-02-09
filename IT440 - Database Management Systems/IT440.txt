@@ -1,0 +1,39 @@
+IT 440 - 10/12/2019
+=====================
+- Module 9 - 
+=====================
+A. Describe the role of database design as the foundation of a successful information system?
+
+	It is the process that determines the database structure and components which is the second phase of the \n
+	database lifecycle.
+
+B. Describe the five phases in the systems development life cycle.
+	
+	1.Planning involves the initial assessment and feasability study.
+	2.Analysis is the phase where you evaluate current systems, create a logical design, and find out user requirements
+	3.Detailed Systems Design
+	4.Implementation, coding, testing, debugging, installation, and fine-tuning.
+	5.Maintenance, evaluating, and enhancing.
+
+C. Design databases using the six phases in the Database Life Cycle framework.
+
+	1.Database initial study, Analyze the situation, define problems, constraints, objectives, as well as scope.
+	2.Database design, create concept design, select DBMS software, create the logical and physical design.
+	3.Implementation and loading, install the DBMS create the database, import data.
+	4.Testing and Evaluation, test and fine-tune the database, ecaluate.
+	5.Operation, Produce the required information flow.
+	6.Maintenance and evolution, Introduce changes, and make enhancements.
+
+D. Conduct evaluation and revision within the SDLC and DBLC frameworks.
+
+E. Distinguish between top-down and bottom-up approaches in database design
+	
+	Top-down: define the main structures first and then define the smaller details within.
+	Bottom-up: define the smaller systems first and then intengrate them into a larger main system.
+
+F. Distinguish between centralized and decentralized conceptual database design.
+
+	Centralized design: A process by which all database design decisions are carried out by a central group of people. \n
+	(a unit or department of an organization)
+	Decentralized design: A Process in which conceptual design models subsets of an organization's database requirements \n
+	, which are then aggregated into a complete design.
