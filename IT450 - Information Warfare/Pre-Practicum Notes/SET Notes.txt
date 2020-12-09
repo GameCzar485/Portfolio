@@ -1,0 +1,6 @@
+for the SET:
+ifconfig to see ip
+1232
+pick site
+browse on target
+STEP 2 - PROFIT

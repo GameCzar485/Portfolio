@@ -1,0 +1,3 @@
+Password Cracking:
+johnny boy --
+in dir = john --wordlist=rockyou.txt --rules [target password file]

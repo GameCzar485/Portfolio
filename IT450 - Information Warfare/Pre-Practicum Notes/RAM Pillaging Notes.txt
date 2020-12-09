@@ -1,0 +1,11 @@
+Ram pillaging:
+convert raw to string:
+strings [OPTIONS] (ramdump.raw) > (target_file.ascii)
+NOTE: should create the target_file in the same location as the ramdump.raw
+
+Searching the ascii file:
+grep ["target text to fine"] (target_file.ascii)
+grep -n  ||  for line number
+
+Goto line in vi:
+page number SHIFT+G
